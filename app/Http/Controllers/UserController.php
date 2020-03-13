@@ -61,6 +61,7 @@ class UserController extends Controller
             $persona->telefono = $request->telefono;
             $persona->email = $request->email;
             $persona->razon_social = 'no';
+            $persona->clientec= '1';
             $persona->save();
 
             $user = new User();
@@ -103,6 +104,7 @@ class UserController extends Controller
             $persona->telefono = $request->telefono;
             $persona->email = $request->email;
             $persona->razon_social = 'no';
+            $persona->clientec= '1';
             $persona->save();
 
             
