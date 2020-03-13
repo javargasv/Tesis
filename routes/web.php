@@ -48,10 +48,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/cliente/actualizar','ClienteController@update');
     });
 
-    Route::group(['middleware' => ['Cliente']], function () {
-    
-    });
-
 });
 
 //Route::get('/home', 'HomeController@index')->name('home');

@@ -62,6 +62,7 @@ class ClienteController extends Controller
         $persona->telefono = $request->telefono;
         $persona->direccion = $request->direccion;
         $persona->nombre_empresa = $request->nombre_empresa;
+        $persona->razon_social = $request->razon_social;
         $persona->save();
     }
 }

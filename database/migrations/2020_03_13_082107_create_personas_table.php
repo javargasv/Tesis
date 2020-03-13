@@ -24,8 +24,6 @@ class CreatePersonasTable extends Migration
             $table->string('direccion',20)->nullable();
             $table->string('razon_social',20);
             $table->string('nombre_empresa',30);
-            $table->integer('idrol')->unsigned();
-            $table->foreign('idrol')->references('id')->on('roles');
             $table->timestamps();
         });
     }

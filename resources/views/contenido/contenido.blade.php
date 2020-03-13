@@ -1,6 +1,7 @@
 @extends('principal')
 @section('contenido')
 
+           
 @if(Auth::check())
             @if(Auth::user()->idrol == 1)
             <template v-if="menu==0">

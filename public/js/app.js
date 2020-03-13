@@ -51133,7 +51133,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             email: "",
             telefono: "",
             direccion: "",
-            razon_social: "no",
+            razon_social: "",
             nombre_empresa: "",
             arrayPersona: [],
             modal: 0,
@@ -51325,7 +51325,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     this.email = "";
                                     this.telefono = "";
                                     this.direccion = "";
-                                    this.razon_social = "No";
+                                    this.razon_social = "";
                                     this.nombre_empresa = "";
                                     this.tituloModal = "Registrar Cliente";
                                     this.tipoAccion = 1;
