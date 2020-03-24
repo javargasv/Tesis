@@ -200,6 +200,9 @@
                                             <td v-text="detalle.articulo">
                                             </td>
                                             <td>
+                                                <input v-model="detalle.logo" type="text" readonly  class="form-control">
+                                            </td>
+                                            <td>
                                                 <input v-model="detalle.leyenda1" type="text"  class="form-control">
                                             </td>
                                             <td>
@@ -222,7 +225,7 @@
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                            <td colspan="9" align="right"><strong>Total Neto:</strong></td>
                                             <td>$ {{total=calcularTotal}}</td>
                                         </tr>
                                     </tbody>
@@ -577,19 +580,29 @@
                         swal({
                             type: 'error',
                             title: 'Error...',
-                            text: 'Ese artículo ya se encuentra agregado!',
+                            text: 'Ese producto ya se encuentra agregado!',
                             })
                     }
                     else{
-                       me.arrayDetalle.push({
-                            idarticulo: me.idarticulo,
-                            articulo: me.articulo,
-                            cantidad: me.cantidad,
-                            precio: me.precio
+                        me.arrayDetalle.push({
+                        idarticulo: me.idarticulo,
+                        articulo: me.articulo,
+                        cantidad: me.cantidad,
+                        precio: me.precio,
+                        logo: me.logo,
+                        leyenda1: me.leyenda1,
+                        leyenda2: me.leyenda4,
+                        leyenda3: me.leyenda3,
+                        leyenda4: me.leyenda4
                         });
                         me.codigo="";
                         me.idarticulo=0;
                         me.articulo="";
+                        me.logo="";
+                        me.leyenda1="";
+                        me.leyenda2="";
+                        me.leyenda3="";
+                        me.leyenda4="";
                         me.cantidad=0;
                         me.precio=0; 
                     }
@@ -609,17 +622,22 @@
                             })
                     }
                     else{
-                       me.arrayDetalle.push({
+                            me.arrayDetalle.push({
                             idarticulo: data['id'],
                             articulo: data['nombre'],
                             cantidad: 1,
-                            precio: 1
+                            precio: data['precio_venta'],
+                            logo: data['logo'],
+                            leyenda1: data['leyenda1'],
+                            leyenda2: data['leyenda2'],
+                            leyenda3: data['leyenda3'],
+                            leyenda4: data['leyenda4']
                         }); 
                     }
             },
             listarArticulo (buscar,criterio){
                 let me=this;
-                var url= '/articulo/listarArticulo?buscar='+ buscar + '&criterio='+ criterio;
+                var url= '/articulo/listarArticuloVenta?buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayArticulo = respuesta.articulos.data;

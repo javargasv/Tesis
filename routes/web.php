@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/venta/obtenerDetalles','VentaController@obtenerDetalles');
 
         Route::get('/articulo/buscarArticuloVenta','ArticuloController@buscarArticuloVenta');
+        Route::get('/articulo/listarArticuloVenta','ArticuloController@listarArticuloVenta');
 
     });
 

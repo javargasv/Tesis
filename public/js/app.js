@@ -54871,6 +54871,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -55034,18 +55037,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     swal({
                         type: 'error',
                         title: 'Error...',
-                        text: 'Ese artículo ya se encuentra agregado!'
+                        text: 'Ese producto ya se encuentra agregado!'
                     });
                 } else {
                     me.arrayDetalle.push({
                         idarticulo: me.idarticulo,
                         articulo: me.articulo,
                         cantidad: me.cantidad,
-                        precio: me.precio
+                        precio: me.precio,
+                        logo: me.logo,
+                        leyenda1: me.leyenda1,
+                        leyenda2: me.leyenda4,
+                        leyenda3: me.leyenda3,
+                        leyenda4: me.leyenda4
                     });
                     me.codigo = "";
                     me.idarticulo = 0;
                     me.articulo = "";
+                    me.logo = "";
+                    me.leyenda1 = "";
+                    me.leyenda2 = "";
+                    me.leyenda3 = "";
+                    me.leyenda4 = "";
                     me.cantidad = 0;
                     me.precio = 0;
                 }
@@ -55066,13 +55079,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     idarticulo: data['id'],
                     articulo: data['nombre'],
                     cantidad: 1,
-                    precio: 1
+                    precio: data['precio_venta'],
+                    logo: data['logo'],
+                    leyenda1: data['leyenda1'],
+                    leyenda2: data['leyenda2'],
+                    leyenda3: data['leyenda3'],
+                    leyenda4: data['leyenda4']
                 });
             }
         },
         listarArticulo: function listarArticulo(buscar, criterio) {
             var me = this;
-            var url = '/articulo/listarArticulo?buscar=' + buscar + '&criterio=' + criterio;
+            var url = '/articulo/listarArticuloVenta?buscar=' + buscar + '&criterio=' + criterio;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 me.arrayArticulo = respuesta.articulos.data;
@@ -56494,6 +56512,34 @@ var render = function() {
                                             {
                                               name: "model",
                                               rawName: "v-model",
+                                              value: detalle.logo,
+                                              expression: "detalle.logo"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: { type: "text", readonly: "" },
+                                          domProps: { value: detalle.logo },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.$set(
+                                                detalle,
+                                                "logo",
+                                                $event.target.value
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
                                               value: detalle.leyenda1,
                                               expression: "detalle.leyenda1"
                                             }
@@ -57284,7 +57330,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { attrs: { colspan: "4", align: "right" } }, [
+    return _c("td", { attrs: { colspan: "9", align: "right" } }, [
       _c("strong", [_vm._v("Total Neto:")])
     ])
   },
