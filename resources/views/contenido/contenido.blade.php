@@ -25,7 +25,7 @@
             </template>
 
             <template v-if="menu==2">
-                <h1>Contenido menú 2</h1>
+                <venta></venta>
             </template>
 
             <template v-if="menu==3">
@@ -47,27 +47,6 @@
             <template v-if="menu==9">
                 <h1>Contenido menú 9</h1>
             </template>
-            @elseif (Auth::user()->idrol == 3)
-            <template v-if="menu==0">
-                <h1>Inicio</h1>
-            </template>
-
-            <template v-if="menu==2">
-                <h1>Contenido menú 2</h1>
-            </template>
-
-            <template v-if="menu==7">
-                <h1>Contenido menú 7</h1>
-            </template>
-
-            <template v-if="menu==8">
-                <h1>Contenido menú 8</h1>
-            </template>
-
-            <template v-if="menu==9">
-                <h1>Contenido menú 9</h1>
-            </template>
-
             @else
             @endif
         @endif()
