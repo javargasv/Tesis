@@ -20,6 +20,6 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "vue-select": "^3.9.4"
+        "vue-select": "^2.6.4"
     }
 }

@@ -10,7 +10,6 @@ class DetalleVenta extends Model
     protected $fillable = [
         'idventa',
         'idarticulo',
-        'logo',
         'leyenda1',
         'leyenda2',
         'leyenda3',

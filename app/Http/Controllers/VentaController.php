@@ -63,7 +63,7 @@ class VentaController extends Controller {
 
         $id = $request->id;
         $detalles = DetalleVenta::join('articulos','detalle_ventas.idarticulo','=','articulos.id')
-        ->select('detalle_ventas.logo','detalle_ventas.leyenda1','detalle_ventas.leyenda2','detalle_ventas.leyenda3','detalle_ventas.leyenda4','detalle_ventas.cantidad','detalle_ventas.precio',
+        ->select('detalle_ventas.leyenda1','detalle_ventas.leyenda2','detalle_ventas.leyenda3','detalle_ventas.leyenda4','detalle_ventas.cantidad','detalle_ventas.precio',
         'articulos.nombre as articulo')
         ->where('detalle_ventas.idventa','=',$id)
         ->orderBy('detalle_ventas.id', 'desc')->get();
@@ -96,7 +96,6 @@ class VentaController extends Controller {
                 $detalle = new DetalleVenta();
                 $detalle->idventa = $venta->id;
                 $detalle->idarticulo = $det['idarticulo'];
-                $detalle->logo = $det['logo'];
                 $detalle->leyenda1 = $det['leyenda1'];
                 $detalle->leyenda2 = $det['leyenda2'];
                 $detalle->leyenda3 = $det['leyenda3'];

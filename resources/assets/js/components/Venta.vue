@@ -57,7 +57,14 @@
                                         <td v-text="venta.nombre"></td>
                                         <td v-text="venta.fecha_hora"></td>
                                         <td v-text="venta.total"></td>
-                                        <td v-text="venta.estado"></td>
+                                        <td>
+                                            <div v-if="venta.estado=='Registrado'">
+                                            <span class="badge badge-success">Registrado</span>
+                                            </div>
+                                            <div v-if="venta.estado=='Cotizando'">
+                                            <span class="badge badge-danger">Cotizando</span>
+                                            </div>
+                                        </td>
                                     </tr>                                
                                 </tbody>
                             </table>
@@ -90,7 +97,7 @@
                                         label="nombre"
                                         :options="arrayCliente"
                                         placeholder="Buscar Clientes..."
-                                        @change="getDatosCliente"                                        
+                                        @input="getDatosCliente"                                        
                                     >
 
                                     </v-select>
@@ -119,12 +126,6 @@
                                         <button @click="abrirModal()" class="btn btn-primary">...</button>
                                         <input type="text" readonly class="form-control" v-model="articulo">
                                     </div>                                    
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Logo</label>
-                                    <input type="text" name="logo" class="form-control" v-model="logo">
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -180,7 +181,6 @@
                                         <tr>
                                             <th>Opciones</th>
                                             <th>Artículo</th>
-                                            <th>Logo</th>
                                             <th>Leyenda 1</th>
                                             <th>Leyenda 2</th>
                                             <th>Leyenda 3</th>
@@ -198,9 +198,6 @@
                                                 </button>
                                             </td>
                                             <td v-text="detalle.articulo">
-                                            </td>
-                                            <td>
-                                                <input v-model="detalle.logo" type="text" readonly  class="form-control">
                                             </td>
                                             <td>
                                                 <input v-model="detalle.leyenda1" type="text"  class="form-control">
@@ -225,7 +222,7 @@
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="9" align="right"><strong>Total Neto:</strong></td>
+                                            <td colspan="9" align="right"><strong>Total Parcial:</strong></td>
                                             <td>$ {{total=calcularTotal}}</td>
                                         </tr>
                                     </tbody>
@@ -242,7 +239,7 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <button type="button" @click="ocultarDetalle()" class="btn btn-secondary">Cerrar</button>
-                                <button type="button" class="btn btn-primary" @click="registrarVenta()">Registrar Venta</button>
+                                <button type="button" class="btn btn-primary" @click="registrarVenta()">Registrar Pedido</button>
                             </div>
                         </div>
                     </div>
@@ -353,7 +350,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <select class="form-control col-md-3" v-model="criterioA">
+                                        <select class="form-control col-md-4" v-model="criterioA">
                                         <option value="nombre">Nombre</option>
                                         <option value="descripcion">Descripción</option>
                                         <option value="codigo">Código</option>
@@ -377,7 +374,7 @@
                                     <tbody>
                                         <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                             <td>
-                                                <button type="button" @click="agregarDetalleModal(articulo)" class="btn btn-success btn-sm">
+                                                <button type="button" @click="agregarDetalleModal(articulo.id)" class="btn btn-success btn-sm">
                                                 <i class="icon-check"></i>
                                                 </button>
                                             </td>
@@ -414,7 +411,7 @@
 
 <script>
     import vSelect from 'vue-select';
-    import 'vue-select/dist/vue-select.css';
+
     export default {
         data (){
             return {
@@ -422,7 +419,6 @@
                 idcliente:0,
                 cliente:'',
                 total:0,
-                totalImpuesto: 'Por aplicar',
                 arrayVenta : [],
                 arrayCliente: [],
                 arrayDetalle : [],
@@ -451,7 +447,6 @@
                 articulo: '',
                 precio: 0,
                 cantidad:0,
-                logo: '',
                 leyenda1: '',
                 leyenda2: '',
                 leyenda3: '',
@@ -577,11 +572,12 @@
                 }
                 else{
                     if(me.encuentra(me.idarticulo)){
-                        swal({
-                            type: 'error',
-                            title: 'Error...',
-                            text: 'Ese producto ya se encuentra agregado!',
-                            })
+                        Swal.fire({
+                        icon: "error",
+                        title: "El producto ya se encuentra agregado",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     }
                     else{
                         me.arrayDetalle.push({
@@ -589,7 +585,6 @@
                         articulo: me.articulo,
                         cantidad: me.cantidad,
                         precio: me.precio,
-                        logo: me.logo,
                         leyenda1: me.leyenda1,
                         leyenda2: me.leyenda4,
                         leyenda3: me.leyenda3,
@@ -598,7 +593,6 @@
                         me.codigo="";
                         me.idarticulo=0;
                         me.articulo="";
-                        me.logo="";
                         me.leyenda1="";
                         me.leyenda2="";
                         me.leyenda3="";
@@ -615,11 +609,12 @@
             agregarDetalleModal(data =[]){
                 let me=this;
                 if(me.encuentra(data['id'])){
-                        swal({
-                            type: 'error',
-                            title: 'Error...',
-                            text: 'Ese artículo ya se encuentra agregado!',
-                            })
+                        Swal.fire({
+                        icon: "error",
+                        title: "El producto ya se encuentra agregado",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     }
                     else{
                             me.arrayDetalle.push({
@@ -627,7 +622,6 @@
                             articulo: data['nombre'],
                             cantidad: 1,
                             precio: data['precio_venta'],
-                            logo: data['logo'],
                             leyenda1: data['leyenda1'],
                             leyenda2: data['leyenda2'],
                             leyenda3: data['leyenda3'],
@@ -646,54 +640,55 @@
                     console.log(error);
                 });
             },
-            registrarIngreso(){
-                if (this.validarIngreso()){
+            registrarVenta(){
+                if (this.validarVenta()){
                     return;
                 }
                 
                 let me = this;
 
-                axios.post('/ingreso/registrar',{
-                    'idproveedor': this.idproveedor,
-                    'tipo_comprobante': this.tipo_comprobante,
-                    'serie_comprobante' : this.serie_comprobante,
-                    'num_comprobante' : this.num_comprobante,
-                    'impuesto' : this.impuesto,
+                axios.post('/venta/registrar',{
+                    'idcliente': this.idcliente,
                     'total' : this.total,
                     'data': this.arrayDetalle
-
                 }).then(function (response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Pedido registrado satisfactoriamente",
+                        text: "El pedido esta en estado REGISTRADO, cuando el cliente acepte el precio total con IVA incluido, pasara a COTIZACIÓN.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
                     me.listado=1;
-                    me.listarIngreso(1,'','num_comprobante');
-                    me.idproveedor=0;
-                    me.tipo_comprobante='BOLETA';
-                    me.serie_comprobante='';
-                    me.num_comprobante='';
-                    me.impuesto=0.18;
+                    me.listarVenta(1,'','estado');
+                    me.idcliente=0;
                     me.total=0.0;
                     me.idarticulo=0;
                     me.articulo='';
                     me.cantidad=0;
                     me.precio=0;
+                    me.codigo='';
+                    me.leyenda1='';
+                    me.leyenda2='';
+                    me.leyenda3='';
+                    me.leyenda4='';
                     me.arrayDetalle=[];
 
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
-            validarIngreso(){
-                this.errorIngreso=0;
-                this.errorMostrarMsjIngreso =[];
+            validarVenta(){
+                let me=this;
+                me.errorVenta=0;
+                me.errorMostrarMsjVenta =[];
 
-                if (this.idproveedor==0) this.errorMostrarMsjIngreso.push("Seleccione un Proveedor");
-                if (this.tipo_comprobante==0) this.errorMostrarMsjIngreso.push("Seleccione el comprobante");
-                if (!this.num_comprobante) this.errorMostrarMsjIngreso.push("Ingrese el número de comprobante");
-                if (!this.impuesto) this.errorMostrarMsjIngreso.push("Ingrese el impuesto de compra");
-                if (this.arrayDetalle.length<=0) this.errorMostrarMsjIngreso.push("Ingrese detalles");
+                if (me.idcliente==0) me.errorMostrarMsjVenta.push("Seleccione un Cliente");
+                if (me.arrayDetalle.length<=0) me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
 
-                if (this.errorMostrarMsjIngreso.length) this.errorIngreso = 1;
+                if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
 
-                return this.errorIngreso;
+                return me.errorVenta;
             },
             mostrarDetalle(){
                 let me=this;
