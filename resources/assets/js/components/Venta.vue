@@ -47,7 +47,7 @@
                                             <button type="button" @click="verVenta(venta.id)" class="btn btn-success btn-sm">
                                             <i class="icon-eye"></i>
                                             </button> &nbsp;
-                                            <template v-if="venta.estado !='Rechazado'">
+                                            <template v-if="venta.estado !='Rechazado/cancelado'">
                                                 <button type="button" class="btn btn-danger btn-sm" @click="desactivarVenta(venta.id)">
                                                     <i class="icon-trash"></i>
                                                 </button>
@@ -59,10 +59,22 @@
                                         <td v-text="venta.total"></td>
                                         <td>
                                             <div v-if="venta.estado=='Registrado'">
-                                            <span class="badge badge-success">Registrado</span>
+                                            <span class="badge badge-primary">Registrado</span>
                                             </div>
                                             <div v-if="venta.estado=='Cotizando'">
-                                            <span class="badge badge-danger">Cotizando</span>
+                                            <span class="badge badge-info">Cotizando</span>
+                                            </div>
+                                            <div v-if="venta.estado=='Aceptado'">
+                                            <span class="badge badge-dark">Aceptado</span>
+                                            </div>
+                                            <div v-if="venta.estado=='En despacho'">
+                                            <span class="badge badge-light">Cotizando</span>
+                                            </div>
+                                            <div v-if="venta.estado=='Entregado'">
+                                            <span class="badge badge-success">Entregado</span>
+                                            </div>
+                                            <div v-if="venta.estado=='Rechazado/cancelado'">
+                                            <span class="badge badge-danger">Rechazado/cancelado</span>
                                             </div>
                                         </td>
                                     </tr>                                
@@ -222,7 +234,7 @@
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="9" align="right"><strong>Total Parcial:</strong></td>
+                                            <td colspan="8" align="right"><strong>Total Parcial:</strong></td>
                                             <td>$ {{total=calcularTotal}}</td>
                                         </tr>
                                     </tbody>
@@ -245,36 +257,20 @@
                     </div>
                     </template>
                     <!-- Fin Detalle-->
-                    <!-- Ver ingreso -->
+                    <!-- Ver Venta -->
                     <template v-else-if="listado==2">
                     <div class="card-body">
                         <div class="form-group row border">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <label for="">Proveedor</label>
-                                    <p v-text="proveedor"></p>
+                                    <label for="">Cliente</label>
+                                    <p v-text="cliente"></p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="">Impuesto</label>
-                                <p v-text="impuesto"></p>
-                            </div>
-                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Tipo Comprobante</label>
-                                    <p v-text="tipo_comprobante"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Serie Comprobante</label>
-                                    <p v-text="serie_comprobante"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Número Comprobante</label>
-                                    <p v-text="num_comprobante"></p>
+                                    <label for="">IMPUESTO</label>
+                                    <span class="badge badge-warning">Valor del pedido antes de IVA</span>
                                 </div>
                             </div>
                         </div>
@@ -286,6 +282,10 @@
                                             <th>Artículo</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
+                                            <th>Leyenda1</th>
+                                            <th>Leyenda2</th>
+                                            <th>Leyenda3</th>
+                                            <th>Leyenda4</th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>
@@ -297,20 +297,20 @@
                                             </td>
                                             <td v-text="detalle.cantidad">
                                             </td>
+                                            <td v-text="detalle.leyenda1">
+                                            </td>
+                                            <td v-text="detalle.leyenda2">
+                                            </td>
+                                            <td v-text="detalle.leyenda3">
+                                            </td>
+                                            <td v-text="detalle.leyenda4">
+                                            </td>
                                             <td>
                                                 {{detalle.precio*detalle.cantidad}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>Total Impuesto:</strong></td>
-                                            <td>$ {{totalImpuesto=((total*impuesto)).toFixed(2)}}</td>
-                                        </tr>
-                                        <tr style="background-color: #CEECF5;">
-                                            <td colspan="3" align="right"><strong>Total Neto:</strong></td>
+                                            <td colspan="7" align="right"><strong>Total Parcial:</strong></td>
                                             <td>$ {{total}}</td>
                                         </tr>
                                     </tbody>
@@ -374,7 +374,7 @@
                                     <tbody>
                                         <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                                             <td>
-                                                <button type="button" @click="agregarDetalleModal(articulo.id)" class="btn btn-success btn-sm">
+                                                <button type="button" @click="agregarDetalleModal(articulo)" class="btn btn-success btn-sm">
                                                 <i class="icon-check"></i>
                                                 </button>
                                             </td>
@@ -709,31 +709,27 @@
             ocultarDetalle(){
                 this.listado=1;
             },
-            verIngreso(id){
+            verVenta(id){
                 let me=this;
                 me.listado=2;
                 
                 //Obtener los datos del ingreso
-                var arrayIngresoT=[];
-                var url= '/ingreso/obtenerCabecera?id=' + id;
+                var arrayVentaT=[];
+                var url= '/venta/obtenerCabecera?id=' + id;
                 
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    arrayIngresoT = respuesta.ingreso;
+                    arrayVentaT = respuesta.venta;
 
-                    me.proveedor = arrayIngresoT[0]['nombre'];
-                    me.tipo_comprobante=arrayIngresoT[0]['tipo_comprobante'];
-                    me.serie_comprobante=arrayIngresoT[0]['serie_comprobante'];
-                    me.num_comprobante=arrayIngresoT[0]['num_comprobante'];
-                    me.impuesto=arrayIngresoT[0]['impuesto'];
-                    me.total=arrayIngresoT[0]['total'];
+                    me.cliente = arrayVentaT[0]['nombre'];
+                    me.total=arrayVentaT[0]['total'];
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
 
                 //Obtener los datos de los detalles 
-                var urld= '/ingreso/obtenerDetalles?id=' + id;
+                var urld= '/venta/obtenerDetalles?id=' + id;
                 
                 axios.get(urld).then(function (response) {
                     console.log(response);
@@ -753,30 +749,27 @@
                 this.modal = 1;
                 this.tituloModal = 'Seleccione uno o varios artículos';
             },
-            desactivarIngreso(id){
-               swal({
-                title: 'Esta seguro de anular este ingreso?',
-                type: 'warning',
+            desactivarVenta(id){
+                Swal.fire({
+                title: '¿Estas seguro de cancelar o rechazar el pedido?',
+                text: "Esta acción es permanente",
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
+                confirmButtonText: 'Sí, confirmar!',
+                cancelButtonText: 'Cancelar'
                 }).then((result) => {
                 if (result.value) {
                     let me = this;
 
-                    axios.put('/ingreso/desactivar',{
+                    axios.put('/venta/desactivar',{
                         'id': id
                     }).then(function (response) {
-                        me.listarIngreso(1,'','num_comprobante');
-                        swal(
+                        me.listarVenta(1,'','num_comprobante');
+                        swal.fire(
                         'Anulado!',
-                        'El ingreso ha sido anulado con éxito.',
+                        'El pedido ha sido anulado con éxito.',
                         'success'
                         )
                     }).catch(function (error) {

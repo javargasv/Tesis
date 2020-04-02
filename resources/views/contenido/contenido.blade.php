@@ -5,7 +5,7 @@
 @if(Auth::check())
             @if(Auth::user()->idrol == 1)
             <template v-if="menu==0">
-                <h1>Inicio</h1>
+                <inicio>Inicio</inicio>
             </template>
             <template v-if="menu==1">
                 <articulo></articulo>
@@ -21,7 +21,7 @@
             </template>
             @elseif (Auth::user()->idrol == 2)
             <template v-if="menu==0">
-                <h1>Inicio</h1>
+                <inicio>Inicio</inicio>
             </template>
 
             <template v-if="menu==2">

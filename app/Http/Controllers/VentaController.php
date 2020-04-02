@@ -115,7 +115,7 @@ class VentaController extends Controller {
     {
         if (!$request->ajax()) return redirect('/');
         $venta = Venta::findOrFail($request->id);
-        $venta->estado = 'Anulado';
+        $venta->estado = 'Rechazado/cancelado';
         $venta->save();
     }
 }

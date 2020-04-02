@@ -19,6 +19,7 @@ Vue.component('cliente', require('./components/Cliente.vue'));
 Vue.component('rol', require('./components/Rol.vue'));
 Vue.component('user', require('./components/User.vue'));
 Vue.component('venta', require('./components/Venta.vue'));
+Vue.component('inicio', require('./components/Inicio.vue'));
 
 const app = new Vue({
     el: '#app',
