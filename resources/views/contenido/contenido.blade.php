@@ -47,6 +47,14 @@
             <template v-if="menu==9">
                 <h1>Contenido menú 9</h1>
             </template>
+            @elseif (Auth::user()->idrol == 3)
+            <template v-if="menu==0">
+                <inicio>Inicio</inicio>
+            </template>
+
+            <template v-if="menu==2">
+                <venta></venta>
+            </template>
             @else
             @endif
         @endif()

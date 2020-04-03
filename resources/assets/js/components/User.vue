@@ -166,9 +166,9 @@
                                     <div class="col-md-9">
                                         <select class="form-control" v-model="idrol">
                                             <option value="0">Seleccione un rol</option>
-                                            <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre">
-
-                                            </option>
+                                            <option value="1">Administrador</option>
+                                            <option value="2">Ejecutivo</option>
+                                            <option value="3">Clientes</option>
                                         </select>
                                     </div>
                                 </div>
@@ -228,7 +228,6 @@
                 password : '',
                 idrol : 0,
                 arrayPersona : [],
-                arrayRol : [],
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,

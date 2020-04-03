@@ -53126,7 +53126,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             password: '',
             idrol: 0,
             arrayPersona: [],
-            arrayRol: [],
             modal: 0,
             tituloModal: '',
             tipoAccion: 0,
@@ -54129,17 +54128,18 @@ var render = function() {
                                   _vm._v("Seleccione un rol")
                                 ]),
                                 _vm._v(" "),
-                                _vm._l(_vm.arrayRol, function(rol) {
-                                  return _c("option", {
-                                    key: rol.id,
-                                    domProps: {
-                                      value: rol.id,
-                                      textContent: _vm._s(rol.nombre)
-                                    }
-                                  })
-                                })
-                              ],
-                              2
+                                _c("option", { attrs: { value: "1" } }, [
+                                  _vm._v("Administrador")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "2" } }, [
+                                  _vm._v("Ejecutivo")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "3" } }, [
+                                  _vm._v("Clientes")
+                                ])
+                              ]
                             )
                           ])
                         ]),
