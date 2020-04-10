@@ -34,7 +34,6 @@
                                 <thead>
                                     <tr>
                                         <th>Opciones</th>
-                                        <th>Usuario</th>
                                         <th>Cliente</th>
                                         <th>Fecha Hora</th>
                                         <th>Total</th>
@@ -53,7 +52,6 @@
                                                 </button>
                                             </template>
                                         </td>
-                                        <td v-text="venta.usuario"></td>
                                         <td v-text="venta.nombre"></td>
                                         <td v-text="venta.fecha_hora"></td>
                                         <td v-text="venta.total"></td>
