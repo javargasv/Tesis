@@ -8,43 +8,88 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Venta;
 use App\DetalleVenta;
+use Illuminate\Support\Facades\Auth;
 
 class VentaController extends Controller {
+
     public function index(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
 
         $buscar = $request->buscar;
         $criterio = $request->criterio;
-        
-        if ($buscar==''){
-            $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
-            ->join('users','ventas.idusuario','=','users.id')
-            ->select('ventas.id','ventas.fecha_hora' ,'ventas.total',
-            'ventas.estado','personas.nombre','users.usuario')
-            ->orderBy('ventas.id', 'desc')->paginate(5);
+        $idusuario = Auth::id();
+        $rolusuario = Auth::user()->idrol;
+
+        if($rolusuario = Auth::user()->idrol=='2') {
+            if ($buscar==''){
+                $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
+                ->join('users','ventas.idusuario','=','users.id')
+                ->select('ventas.id','ventas.fecha_hora' ,'ventas.total',
+                'ventas.estado','personas.nombre','users.usuario')
+                ->orderBy('ventas.id', 'desc')->paginate(5);
+            }
+            else{
+                $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
+                ->join('users','ventas.idusuario','=','users.id')
+                ->select('ventas.id','ventas.fecha_hora','ventas.total',
+                'ventas.estado','personas.nombre','users.usuario')
+                ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
+                ->orderBy('ventas.id', 'desc')->paginate(5);
+            }
+            
+            return [
+                'pagination' => [
+                    'total'        => $ventas->total(),
+                    'current_page' => $ventas->currentPage(),
+                    'per_page'     => $ventas->perPage(),
+                    'last_page'    => $ventas->lastPage(),
+                    'from'         => $ventas->firstItem(),
+                    'to'           => $ventas->lastItem(),
+                ],
+                'ventas' => $ventas
+            ];
         }
-        else{
-            $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
-            ->join('users','ventas.idusuario','=','users.id')
-            ->select('ventas.id','ventas.fecha_hora','ventas.total',
-            'ventas.estado','personas.nombre','users.usuario')
-            ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('ventas.id', 'desc')->paginate(5);
+
+        elseif($rolusuario = Auth::user()->idrol=='3') {
+            if (!$request->ajax()) return redirect('/');
+
+            $buscar = $request->buscar;
+            $criterio = $request->criterio;
+            $idusuario = Auth::id();
+            
+            if ($buscar==''){
+                $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
+                ->join('users','ventas.idusuario','=','users.id')
+                ->select('ventas.id','ventas.fecha_hora' ,'ventas.total',
+                'ventas.estado','personas.nombre','users.usuario')
+                ->where('ventas.idcliente','=',$idusuario)
+                ->orderBy('ventas.id', 'desc')->paginate(5);
+            }
+            else{
+                $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
+                ->join('users','ventas.idusuario','=','users.id')
+                ->select('ventas.id','ventas.fecha_hora','ventas.total',
+                'ventas.estado','personas.nombre','users.usuario')
+                ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
+                ->orderBy('ventas.id', 'desc')->paginate(5);
+            }
+            
+            return [
+                'pagination' => [
+                    'total'        => $ventas->total(),
+                    'current_page' => $ventas->currentPage(),
+                    'per_page'     => $ventas->perPage(),
+                    'last_page'    => $ventas->lastPage(),
+                    'from'         => $ventas->firstItem(),
+                    'to'           => $ventas->lastItem(),
+                ],
+                'ventas' => $ventas
+            ];
         }
         
-        return [
-            'pagination' => [
-                'total'        => $ventas->total(),
-                'current_page' => $ventas->currentPage(),
-                'per_page'     => $ventas->perPage(),
-                'last_page'    => $ventas->lastPage(),
-                'from'         => $ventas->firstItem(),
-                'to'           => $ventas->lastItem(),
-            ],
-            'ventas' => $ventas
-        ];
     }
+
     public function obtenerCabecera(Request $request){
         if (!$request->ajax()) return redirect('/');
 
