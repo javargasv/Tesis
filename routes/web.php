@@ -44,6 +44,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::group(['middleware' => ['Ejecutivo']], function () {
+
+        Route::get('/dashboard','DashboardController');
+
         Route::get('/cliente','ClienteController@index');
         Route::post('/cliente/registrar','ClienteController@store');
         Route::put('/cliente/actualizar','ClienteController@update');
