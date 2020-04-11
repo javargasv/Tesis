@@ -70,6 +70,16 @@ class ArticuloController extends Controller
         return ['articulos' => $articulos];
     }
 
+    public function listarPdf() { 
+        $articulos = Articulo::select('articulos.id','articulos.codigo','articulos.nombre','articulos.precio_venta','articulos.descripcion','articulos.condicion')
+        ->where('articulos.condicion','=','1')
+        ->orderBy('articulos.id', 'desc')->get();
+
+        $cont=Articulo::count();
+
+        $pdf = \PDF::loadView('pdf.articulospdf',['articulos'=>$articulos,'cont'=>$cont]);
+        return $pdf->download('articulos.pdf');
+    }
 
     public function store(Request $request)
     {

@@ -49723,6 +49723,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -49800,6 +49803,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             me.pagination.current_page = page;
             //envia la peticion para visualizar la data de esa pagina
             me.listarArticulos(page, buscar, criterio);
+        },
+        cargarPdf: function cargarPdf() {
+            window.open('http://localhost:8000/articulo/listarPdf', '_blank');
         },
         registrarArticulo: function registrarArticulo() {
 
@@ -49993,6 +49999,23 @@ var render = function() {
             [
               _c("i", { staticClass: "icon-plus" }),
               _vm._v(" Nuevo\r\n                        ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.cargarPdf()
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "icon-doc" }),
+              _vm._v(" Reporte de Productos\r\n                        ")
             ]
           )
         ]),
@@ -54868,8 +54891,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -55454,10 +55475,6 @@ var render = function() {
                                 ],
                                 2
                               ),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: { textContent: _vm._s(venta.usuario) }
-                              }),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: { textContent: _vm._s(venta.nombre) }
@@ -56704,8 +56721,6 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Opciones")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Usuario")]),
         _vm._v(" "),
         _c("th", [_vm._v("Cliente")]),
         _vm._v(" "),

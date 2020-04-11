@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/articulo/actualizar','ArticuloController@update');
         Route::put('/articulo/desactivar','ArticuloController@desactivar');
         Route::put('/articulo/activar','ArticuloController@activar');
+        Route::get('/articulo/listarPdf','ArticuloController@listarPdf')->name('articulos_pdf');
 
         Route::get('/rol','RolController@index');
         Route::get('/rol/selectRol','RolController@selectRol');

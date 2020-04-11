@@ -14,6 +14,9 @@
                         <button type="button" @click="abrirModal('articulo','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
+                        <button type="button" @click="cargarPdf()" class="btn btn-info">
+                            <i class="icon-doc"></i>&nbsp;Reporte de Productos
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -226,7 +229,9 @@
             //envia la peticion para visualizar la data de esa pagina
               me.listarArticulos(page,buscar,criterio);
             },
-
+            cargarPdf(){
+                window.open('http://localhost:8000/articulo/listarPdf','_blank');
+            },
             registrarArticulo(){
 
                 if(this.validarArticulo()){
