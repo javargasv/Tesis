@@ -55022,10 +55022,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     articulo: data['nombre'],
                     cantidad: 1,
                     precio: data['precio_venta'],
-                    leyenda1: data['leyenda1'],
-                    leyenda2: data['leyenda2'],
-                    leyenda3: data['leyenda3'],
-                    leyenda4: data['leyenda4']
+                    leyenda1: " ",
+                    leyenda2: " ",
+                    leyenda3: " ",
+                    leyenda4: " "
                 });
             }
         },
