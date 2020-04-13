@@ -54392,7 +54392,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n\n", ""]);
+exports.push([module.i, "\n.invisible {\n    display:none;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n\n", ""]);
 
 // exports
 
@@ -55077,18 +55077,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         validarVenta: function validarVenta() {
-            var me = this;
-            me.errorVenta = 0;
-            me.errorMostrarMsjVenta = [];
+            var url = '/venta/verCliente';
+            axios.get(url).then(function (response) {
+                var usuario = response.data;
+                console.log(usuario);
+                if (usuario == 2) {
+                    var me = this;
+                    me.errorVenta = 0;
+                    me.errorMostrarMsjVenta = [];
 
-            if (me.idcliente == 0) me.errorMostrarMsjVenta.push("Seleccione un Cliente");
-            if (me.arrayDetalle.length <= 0) me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
+                    if (me.idcliente == 0) me.errorMostrarMsjVenta.push("Seleccione un Cliente");
+                    if (me.arrayDetalle.length <= 0) me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
 
-            if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
+                    if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
 
-            return me.errorVenta;
+                    return me.errorVenta;
+                } else {
+                    var _me = this;
+                    _me.errorVenta = 0;
+                    _me.errorMostrarMsjVenta = [];
+
+                    if (_me.arrayDetalle.length <= 0) _me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
+
+                    if (_me.errorMostrarMsjVenta.length) _me.errorVenta = 1;
+
+                    return _me.errorVenta;
+                }
+            });
+        },
+        verCliente: function verCliente() {
+            var url = '/venta/verCliente';
+            axios.get(url).then(function (response) {
+                var usuario = response.data;
+                console.log(usuario);
+                if (usuario == 3) {
+                    $('#verc').addClass('invisible');
+                }
+            });
         },
         mostrarDetalle: function mostrarDetalle() {
+
+            if (this.verCliente()) {
+                return;
+            }
+
             var me = this;
             me.listado = 0;
 
@@ -55428,7 +55460,9 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("td", {
-                                domProps: { textContent: _vm._s(venta.total) }
+                                domProps: {
+                                  textContent: _vm._s(venta.total, 3)
+                                }
                               }),
                               _vm._v(" "),
                               _c("td", [
@@ -55588,30 +55622,34 @@ var render = function() {
             ? [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "form-group row border" }, [
-                    _c("div", { staticClass: "col-md-9" }, [
-                      _c(
-                        "div",
-                        { staticClass: "form-group" },
-                        [
-                          _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Cliente(*)")
-                          ]),
-                          _vm._v(" "),
-                          _c("v-select", {
-                            attrs: {
-                              label: "nombre",
-                              options: _vm.arrayCliente,
-                              placeholder: "Buscar Clientes..."
-                            },
-                            on: {
-                              search: _vm.selectCliente,
-                              input: _vm.getDatosCliente
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-9", attrs: { id: "verc" } },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", { attrs: { for: "" } }, [
+                              _vm._v("Cliente(*)")
+                            ]),
+                            _vm._v(" "),
+                            _c("v-select", {
+                              attrs: {
+                                label: "nombre",
+                                options: _vm.arrayCliente,
+                                placeholder: "Buscar Clientes..."
+                              },
+                              on: {
+                                search: _vm.selectCliente,
+                                input: _vm.getDatosCliente
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _vm._m(1),
                     _vm._v(" "),

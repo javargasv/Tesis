@@ -100,7 +100,7 @@
                     <template v-else-if="listado==0">
                     <div class="card-body">
                         <div class="form-group row border">
-                            <div class="col-md-9">
+                            <div class="col-md-9" id="verc">
                                 <div class="form-group">
                                     <label for="">Cliente(*)</label>
                                     <v-select
@@ -681,18 +681,51 @@
                 });
             },
             validarVenta(){
-                let me=this;
-                me.errorVenta=0;
-                me.errorMostrarMsjVenta =[];
+                var url= '/venta/verCliente';
+                axios.get(url).then(function (response) {
+                        var usuario= response.data;
+                        console.log(usuario);
+                        if(usuario==2){
+                            let me=this;
+                            me.errorVenta=0;
+                            me.errorMostrarMsjVenta =[];
 
-                if (me.idcliente==0) me.errorMostrarMsjVenta.push("Seleccione un Cliente");
-                if (me.arrayDetalle.length<=0) me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
+                            if (me.idcliente==0) me.errorMostrarMsjVenta.push("Seleccione un Cliente");
+                            if (me.arrayDetalle.length<=0) me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
 
-                if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
+                            if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
 
-                return me.errorVenta;
+                            return me.errorVenta;
+                        } else {
+                            let me=this;
+                            me.errorVenta=0;
+                            me.errorMostrarMsjVenta =[];
+
+                            if (me.arrayDetalle.length<=0) me.errorMostrarMsjVenta.push("Ingrese los detalles de la venta");
+
+                            if (me.errorMostrarMsjVenta.length) me.errorVenta = 1;
+
+                            return me.errorVenta;
+                        }
+                    });
+
+            },
+            verCliente(){
+                var url= '/venta/verCliente';
+                axios.get(url).then(function (response) {
+                        var usuario= response.data;
+                        console.log(usuario);
+                        if(usuario==3){
+                            $('#verc').addClass('invisible');
+                        }
+                    });
             },
             mostrarDetalle(){
+
+                if (this.verCliente()){
+                    return;
+                }
+
                 let me=this;
                 me.listado=0;
 
@@ -794,6 +827,11 @@
     }
 </script>
 <style>    
+
+    .invisible {
+        display:none;
+    }
+
     .modal-content{
         width: 100% !important;
         position: absolute !important;

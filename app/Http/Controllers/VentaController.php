@@ -138,42 +138,87 @@ class VentaController extends Controller {
     }
 
     public function store(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
+    {       
 
-        try{
-            DB::beginTransaction();
+        if($rolusuario = Auth::user()->idrol=='2') {
 
-            $mytime= Carbon::now('America/Bogota');
+            if (!$request->ajax()) return redirect('/');
 
-            $venta = new Venta();
-            $venta->idcliente = $request->idcliente;
-            $venta->idusuario = \Auth::user()->id;
-            $venta->fecha_hora = $mytime->toDateString();
-            $venta->total = $request->total;
-            $venta->estado = 'Registrado';
-            $venta->save();
+            try{
+                DB::beginTransaction();
 
-            $detalles = $request->data;//Array de detalles
-            //Recorro todos los elementos
+                $mytime= Carbon::now('America/Bogota');
 
-            foreach($detalles as $ep=>$det)
-            {
-                $detalle = new DetalleVenta();
-                $detalle->idventa = $venta->id;
-                $detalle->idarticulo = $det['idarticulo'];
-                $detalle->leyenda1 = $det['leyenda1'];
-                $detalle->leyenda2 = $det['leyenda2'];
-                $detalle->leyenda3 = $det['leyenda3'];
-                $detalle->leyenda4 = $det['leyenda4'];
-                $detalle->cantidad = $det['cantidad'];
-                $detalle->precio = $det['precio'];     
-                $detalle->save();
-            }          
+                $venta = new Venta();
+                $venta->idcliente = $request->idcliente;
+                $venta->idusuario = \Auth::user()->id;
+                $venta->fecha_hora = $mytime->toDateString();
+                $venta->total = $request->total;
+                $venta->estado = 'Registrado';
+                $venta->save();
 
-            DB::commit();
-        } catch (Exception $e){
-            DB::rollBack();
+                $detalles = $request->data;//Array de detalles
+                //Recorro todos los elementos
+
+                foreach($detalles as $ep=>$det)
+                {
+                    $detalle = new DetalleVenta();
+                    $detalle->idventa = $venta->id;
+                    $detalle->idarticulo = $det['idarticulo'];
+                    $detalle->leyenda1 = $det['leyenda1'];
+                    $detalle->leyenda2 = $det['leyenda2'];
+                    $detalle->leyenda3 = $det['leyenda3'];
+                    $detalle->leyenda4 = $det['leyenda4'];
+                    $detalle->cantidad = $det['cantidad'];
+                    $detalle->precio = $det['precio'];     
+                    $detalle->save();
+                }          
+
+                    DB::commit();
+                } catch (Exception $e){
+                    DB::rollBack();
+                }
+        }
+        elseif($rolusuario = Auth::user()->idrol=='3') {
+            
+            if (!$request->ajax()) return redirect('/');
+
+            try{
+                DB::beginTransaction();
+
+                $idcl = Auth::id();
+
+                $mytime= Carbon::now('America/Bogota');
+
+                $venta = new Venta();
+                $venta->idcliente = $idcl;
+                $venta->idusuario = \Auth::user()->id;
+                $venta->fecha_hora = $mytime->toDateString();
+                $venta->total = $request->total;
+                $venta->estado = 'Registrado';
+                $venta->save();
+
+                $detalles = $request->data;//Array de detalles
+                //Recorro todos los elementos
+
+                foreach($detalles as $ep=>$det)
+                {
+                    $detalle = new DetalleVenta();
+                    $detalle->idventa = $venta->id;
+                    $detalle->idarticulo = $det['idarticulo'];
+                    $detalle->leyenda1 = $det['leyenda1'];
+                    $detalle->leyenda2 = $det['leyenda2'];
+                    $detalle->leyenda3 = $det['leyenda3'];
+                    $detalle->leyenda4 = $det['leyenda4'];
+                    $detalle->cantidad = $det['cantidad'];
+                    $detalle->precio = $det['precio'];     
+                    $detalle->save();
+                }          
+
+                    DB::commit();
+                } catch (Exception $e){
+                    DB::rollBack();
+                }
         }
     }
 
@@ -183,6 +228,12 @@ class VentaController extends Controller {
         $venta = Venta::findOrFail($request->id);
         $venta->estado = 'Rechazado/cancelado';
         $venta->save();
+    }
+
+    public function verCliente(){
+        $rolusuario = Auth::user()->idrol;
+
+        return $rolusuario;
     }
 }
 
