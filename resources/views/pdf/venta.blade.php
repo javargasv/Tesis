@@ -127,7 +127,7 @@
                 </p>
             </div>
             <div id="fact">
-                <p>Factura<br>
+                <p>Orden<br>
                 {{$v->id}}</p>
             </div>
         </header>
@@ -179,7 +179,6 @@
                             <th>CANT</th>
                             <th>DESCRIPCION</th>
                             <th>PRECIO UNIT</th>
-                            <th>DESCUENTO</th>
                             <th>PRECIO TOTAL</th>
                         </tr>
                     </thead>
@@ -188,9 +187,8 @@
                         <tr>
                             <td>{{$det->cantidad}}</td>
                             <td>{{$det->articulo}}</td>
-                            <td>{{$det->precio}}</td>
-                            <th>0</th>
-                            <td>{{$det->cantidad*$det->precio,3}}</td>
+                            <td>$ {{$det->precio}}</td>
+                            <td>$ {{$det->cantidad*$det->precio,3}}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -199,23 +197,8 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th></th>
                         <th>SUBTOTAL</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>IMPUESTO</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>TOTAL</th>
-                        <td>$ {{$v->total,3}}</td>
+                        <td>$ {{$v->total}}</td>
                     </tr>
                     @endforeach
                     </tfoot>

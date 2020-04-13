@@ -54,7 +54,7 @@
                                     </td>
                                     <td v-text="articulo.nombre"></td>
                                     <td v-text="articulo.descripcion"></td>
-                                    <td v-text="articulo.precio_venta"></td>
+                                    <td v-text="articulo.precio_venta,3"></td>
                                     <td>
                                         <div v-if="articulo.condicion">
                                         <span class="badge badge-success">Activo</span>

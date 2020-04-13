@@ -50185,7 +50185,9 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(articulo.precio_venta) }
+                      domProps: {
+                        textContent: _vm._s(articulo.precio_venta, 3)
+                      }
                     }),
                     _vm._v(" "),
                     _c("td", [
@@ -56153,7 +56155,8 @@ var render = function() {
                                         _vm._v(
                                           "\n                                        " +
                                             _vm._s(
-                                              detalle.precio * detalle.cantidad
+                                              detalle.precio * detalle.cantidad,
+                                              3
                                             ) +
                                             "\n                                    "
                                         )
@@ -56175,7 +56178,8 @@ var render = function() {
                                         _vm._v(
                                           "$ " +
                                             _vm._s(
-                                              (_vm.total = _vm.calcularTotal)
+                                              (_vm.total = _vm.calcularTotal),
+                                              3
                                             )
                                         )
                                       ])
@@ -56305,7 +56309,8 @@ var render = function() {
                                         _vm._v(
                                           "\n                                        " +
                                             _vm._s(
-                                              detalle.precio * detalle.cantidad
+                                              detalle.precio * detalle.cantidad,
+                                              3
                                             ) +
                                             "\n                                    "
                                         )
@@ -56324,7 +56329,7 @@ var render = function() {
                                       _vm._m(7),
                                       _vm._v(" "),
                                       _c("td", [
-                                        _vm._v("$ " + _vm._s(_vm.total))
+                                        _vm._v("$ " + _vm._s(_vm.total, 3))
                                       ])
                                     ]
                                   )
@@ -56912,6 +56917,19 @@ exports.push([module.i, "\n.logoinicial {\r\n    margin: auto;\n}\n.container-fl
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 /* 73 */
@@ -56941,13 +56959,77 @@ var render = function() {
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("p", [_vm._v("Información Importante: ")])
+        _vm._m(0)
       ],
       1
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "carousel slide carousel-fade mb-4",
+        staticStyle: { margin: "auto" },
+        attrs: { id: "carouselExampleFade", "data-ride": "carousel" }
+      },
+      [
+        _c("div", { staticClass: "carousel-inner" }, [
+          _c("div", { staticClass: "carousel-item active" }, [
+            _c("img", {
+              staticClass: "d-block w-100 mb-4",
+              attrs: { src: "img/carru1.png", alt: "Integrafi" }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "carousel-control-prev",
+            attrs: {
+              href: "#carouselExampleFade",
+              role: "button",
+              "data-slide": "prev"
+            }
+          },
+          [
+            _c("span", {
+              staticClass: "carousel-control-prev-icon",
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "carousel-control-next",
+            attrs: {
+              href: "#carouselExampleFade",
+              role: "button",
+              "data-slide": "next"
+            }
+          },
+          [
+            _c("span", {
+              staticClass: "carousel-control-next-icon",
+              attrs: { "aria-hidden": "true" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
+          ]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -57039,16 +57121,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -57064,7 +57136,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getVentas: function getVentas() {
             var me = this;
-            var url = '/dashboard';
+            var url = "/dashboard";
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
                 me.ventas = respuesta.ventas;
@@ -57080,17 +57152,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 me.varMesVenta.push(x.mes);
                 me.varTotalVenta.push(x.total);
             });
-            me.varVenta = document.getElementById('ventas').getContext('2d');
+            me.varVenta = document.getElementById("ventas").getContext("2d");
 
             me.charVenta = new Chart(me.varVenta, {
-                type: 'bar',
+                type: "bar",
                 data: {
                     labels: me.varMesVenta,
                     datasets: [{
-                        label: 'Ventas',
+                        label: "Ventas",
                         data: me.varTotalVenta,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 0.2)',
+                        backgroundColor: "rgba(54, 162, 235, 0.2)",
+                        borderColor: "rgba(54, 162, 235, 0.2)",
                         borderWidth: 1
                     }]
                 },

@@ -100,7 +100,7 @@
                 <tr>
                 <td>{{$a->codigo}}</td>
                 <td>{{$a->nombre}}</td>
-                <td>{{$a->precio_venta}}</td>
+                <td>$ {{$a->precio_venta,3}}</td>
                 <td>{{$a->descripcion}}</td>
                 </tr>
             @endforeach

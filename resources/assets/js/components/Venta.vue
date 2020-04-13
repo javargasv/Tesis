@@ -55,7 +55,7 @@
                                         </td>
                                         <td v-text="venta.nombre"></td>
                                         <td v-text="venta.fecha_hora"></td>
-                                        <td v-text="venta.total"></td>
+                                        <td v-text="venta.total,3"></td>
                                         <td>
                                             <div v-if="venta.estado=='Registrado'">
                                             <span class="badge badge-primary">Registrado</span>
@@ -229,12 +229,12 @@
                                                 <input v-model="detalle.cantidad" type="number" class="form-control">
                                             </td>
                                             <td>
-                                                {{detalle.precio*detalle.cantidad}}
+                                                {{detalle.precio*detalle.cantidad,3}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="8" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{total=calcularTotal}}</td>
+                                            <td>$ {{total=calcularTotal,3}}</td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -305,12 +305,12 @@
                                             <td v-text="detalle.leyenda4">
                                             </td>
                                             <td>
-                                                {{detalle.precio*detalle.cantidad}}
+                                                {{detalle.precio*detalle.cantidad,3}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="7" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{total}}</td>
+                                            <td>$ {{total,3}}</td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else>
