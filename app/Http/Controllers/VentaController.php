@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Venta;
 use App\DetalleVenta;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Notifications\NotifyAdmin;
 
 class VentaController extends Controller {
 
@@ -173,7 +175,6 @@ class VentaController extends Controller {
                     $detalle->precio = $det['precio'];     
                     $detalle->save();
                 }          
-
                     DB::commit();
                 } catch (Exception $e){
                     DB::rollBack();
@@ -214,7 +215,20 @@ class VentaController extends Controller {
                     $detalle->precio = $det['precio'];     
                     $detalle->save();
                 }          
+                
+                $numVentas = DB::table('ventas')->where('created_at', $mytime)->count();
 
+                $arregloDatos = [
+                    'ventas' => [
+                        'numero' => $numVentas,
+                        'msg' => 'Ventas'        
+                    ]
+                ];
+
+                $allUsers = User::all();
+                foreach ($allUsers as $notificar){
+                    User::findOrFail($notificar->id)->notify(new NotifyAdmin($arregloDatos));
+                }
                     DB::commit();
                 } catch (Exception $e){
                     DB::rollBack();

@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('contenido/contenido');
     })->name('main');
 
+    Route::post('/notification/get', 'NotificationController@get');
+
     Route::group(['middleware' => ['Administrador']], function () {
 
         Route::get('/articulo','ArticuloController@index');
@@ -63,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/articulo/buscarArticuloVenta','ArticuloController@buscarArticuloVenta');
         Route::get('/articulo/listarArticuloVenta','ArticuloController@listarArticuloVenta');
+
 
     });
 

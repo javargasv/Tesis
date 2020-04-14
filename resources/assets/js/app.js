@@ -21,10 +21,20 @@ Vue.component('user', require('./components/User.vue'));
 Vue.component('venta', require('./components/Venta.vue'));
 Vue.component('inicio', require('./components/Inicio.vue'));
 Vue.component('dashboard', require('./components/Dashboard.vue'));
+Vue.component('notificacion', require('./components/Notification.vue'));
 
 const app = new Vue({
     el: '#app',
     data: {
-        menu: 0
+        menu: 0,
+        notifications: []
+    },
+    created() {
+        let me = this;
+        axios.post('notification/get').then(function(response) {
+            me.notifications = response.data;
+        }).catch(function(error) {
+            console.log(error);
+        });
     }
 });
