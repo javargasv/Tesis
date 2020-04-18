@@ -224,7 +224,7 @@
               me.listarArticulos(page,buscar,criterio);
             },
             cargarPdf(){
-                window.open('http://localhost:8000/articulo/listarPdf','_blank');
+                window.open('http://ideasalvajes.net/articulo/listarPdf','_blank');
             },
             registrarArticulo(){
 

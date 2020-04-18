@@ -27,14 +27,14 @@ class VentaController extends Controller {
             if ($buscar==''){
                 $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
                 ->join('users','ventas.idusuario','=','users.id')
-                ->select('ventas.id','ventas.fecha_hora' ,'ventas.total',
+                ->select('ventas.id','ventas.created_at' ,'ventas.total',
                 'ventas.estado','personas.nombre','users.usuario')
                 ->orderBy('ventas.id', 'desc')->paginate(5);
             }
             else{
                 $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
                 ->join('users','ventas.idusuario','=','users.id')
-                ->select('ventas.id','ventas.fecha_hora','ventas.total',
+                ->select('ventas.id','ventas.created_at','ventas.total',
                 'ventas.estado','personas.nombre','users.usuario')
                 ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
                 ->orderBy('ventas.id', 'desc')->paginate(5);
@@ -63,7 +63,7 @@ class VentaController extends Controller {
             if ($buscar==''){
                 $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
                 ->join('users','ventas.idusuario','=','users.id')
-                ->select('ventas.id','ventas.fecha_hora' ,'ventas.total',
+                ->select('ventas.id','ventas.created_at' ,'ventas.total',
                 'ventas.estado','personas.nombre','users.usuario')
                 ->where('ventas.idcliente','=',$idusuario)
                 ->orderBy('ventas.id', 'desc')->paginate(5);
@@ -71,7 +71,7 @@ class VentaController extends Controller {
             else{
                 $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
                 ->join('users','ventas.idusuario','=','users.id')
-                ->select('ventas.id','ventas.fecha_hora','ventas.total',
+                ->select('ventas.id','ventas.created_at','ventas.total',
                 'ventas.estado','personas.nombre','users.usuario')
                 ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
                 ->orderBy('ventas.id', 'desc')->paginate(5);

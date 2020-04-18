@@ -31,31 +31,18 @@
                             <table class="table table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Opciones</th>
                                         <th>Cliente</th>
                                         <th>Fecha Hora</th>
                                         <th>Total</th>
                                         <th>Estado</th>
+                                        <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="venta in arrayVenta" :key="venta.id">
-                                        <td>
-                                            <button type="button" @click="verVenta(venta.id)" class="btn btn-success btn-sm">
-                                            <i class="icon-eye"></i>
-                                            </button> &nbsp;
-                                            <button type="button" @click="pdfVenta(venta.id)" class="btn btn-info btn-sm">
-                                            <i class="icon-doc"></i>
-                                            </button> &nbsp;
-                                            <template v-if="venta.estado !='Rechazado/cancelado'">
-                                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarVenta(venta.id)">
-                                                    <i class="icon-trash"></i>
-                                                </button>
-                                            </template>
-                                        </td>
                                         <td v-text="venta.nombre"></td>
-                                        <td v-text="venta.fecha_hora"></td>
-                                        <td v-text="venta.total,3"></td>
+                                        <td v-text="venta.created_at"></td>
+                                        <td>$ {{formato(venta.total)}}</td>
                                         <td>
                                             <div v-if="venta.estado=='Registrado'">
                                             <span class="badge badge-primary">Registrado</span>
@@ -75,6 +62,19 @@
                                             <div v-if="venta.estado=='Rechazado/cancelado'">
                                             <span class="badge badge-danger">Rechazado/cancelado</span>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" @click="verVenta(venta.id)" class="btn btn-success btn-sm">
+                                            <i class="icon-eye"></i>
+                                            </button> &nbsp;
+                                            <button type="button" @click="pdfVenta(venta.id)" class="btn btn-info btn-sm">
+                                            <i class="icon-doc"></i>
+                                            </button> &nbsp;
+                                            <template v-if="venta.estado !='Rechazado/cancelado'">
+                                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarVenta(venta.id)">
+                                                    <i class="icon-trash"></i>
+                                                </button>
+                                            </template>
                                         </td>
                                     </tr>                                
                                 </tbody>
@@ -491,6 +491,10 @@
             }
         },
         methods : {
+            formato(value) {
+                let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            },
             listarVenta (page,buscar,criterio){
                 let me=this;
                 var url= '/venta?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
@@ -546,7 +550,7 @@
                 });
             },
             pdfVenta(id){
-                window.open('http://localhost:8000/venta/pdf/'+id+','+'_blank');
+                window.open('http://ideasalvajes.net/venta/pdf/'+id+','+'_blank');
             },
             cambiarPagina(page,buscar,criterio){
                 let me = this;

@@ -53,7 +53,6 @@
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>Opciones</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>Tipo documento</th>
@@ -63,6 +62,7 @@
                                 <th>Dirección</th>
                                 <th>Razón social</th>
                                 <th>Nombre empresa</th>
+                                <th>Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,6 +70,15 @@
                                 v-for="persona in arrayPersona"
                                 :key="persona.id"
                             >
+                                <td v-text="persona.nombre"></td>
+                                <td v-text="persona.apellido"></td>
+                                <td v-text="persona.tipo_documento"></td>
+                                <td v-text="persona.num_documento"></td>
+                                <td v-text="persona.email"></td>
+                                <td v-text="persona.telefono"></td>
+                                <td v-text="persona.direccion"></td>
+                                <td v-text="persona.razon_social"></td>
+                                <td v-text="persona.nombre_empresa"></td>
                                 <td>
                                     <button
                                         type="button"
@@ -90,15 +99,6 @@
                                         ></i>
                                     </button>
                                 </td>
-                                <td v-text="persona.nombre"></td>
-                                <td v-text="persona.apellido"></td>
-                                <td v-text="persona.tipo_documento"></td>
-                                <td v-text="persona.num_documento"></td>
-                                <td v-text="persona.email"></td>
-                                <td v-text="persona.telefono"></td>
-                                <td v-text="persona.direccion"></td>
-                                <td v-text="persona.razon_social"></td>
-                                <td v-text="persona.nombre_empresa"></td>
                             </tr>
                         </tbody>
                     </table>
