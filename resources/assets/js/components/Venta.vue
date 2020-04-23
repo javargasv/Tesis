@@ -614,42 +614,48 @@
                     });
                 }
                 else{
-                    if(me.encuentra(me.idarticulo)){
-                        Swal.fire({
-                        icon: "error",
-                        title: "El producto ya se encuentra agregado",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    }
-                    else{
-                        $('.btnagregar').removeClass('btn-secondary');
-                        $('#btnagregar').addClass('btn-success');
-                        me.arrayDetalle.push({
-                        idarticulo: me.idarticulo,
-                        articulo: me.articulo,
-                        cantidad: me.cantidad,
-                        precio: me.precio,
-                        leyenda1: me.leyenda1,
-                        leyenda2: me.leyenda4,
-                        leyenda3: me.leyenda3,
-                        leyenda4: me.leyenda4
+                        if(me.cantidad < 0){
+                            Swal.fire({
+                            icon: "error",
+                            title: "La cantidad debe ser mayor a 0",
+                            showConfirmButton: false,
+                            timer: 1500
                         });
-                        me.codigo="";
-                        me.idarticulo=0;
-                        me.articulo="";
-                        me.leyenda1="";
-                        me.leyenda2="";
-                        me.leyenda3="";
-                        me.leyenda4="";
-                        me.cantidad=0;
-                        me.precio=0; 
-                    }
-                    
+                        }
+                        else { 
+                            if(me.encuentra(me.idarticulo)){
+                                Swal.fire({
+                                icon: "error",
+                                title: "El producto ya se encuentra agregado",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            }
+                            else{
+                                    $('.btnagregar').removeClass('btn-secondary');
+                                    $('#btnagregar').addClass('btn-success');
+                                    me.arrayDetalle.push({
+                                    idarticulo: me.idarticulo,
+                                    articulo: me.articulo,
+                                    cantidad: me.cantidad,
+                                    precio: me.precio,
+                                    leyenda1: me.leyenda1,
+                                    leyenda2: me.leyenda4,
+                                    leyenda3: me.leyenda3,
+                                    leyenda4: me.leyenda4
+                                    });
+                                    me.codigo="";
+                                    me.idarticulo=0;
+                                    me.articulo="";
+                                    me.leyenda1="";
+                                    me.leyenda2="";
+                                    me.leyenda3="";
+                                    me.leyenda4="";
+                                    me.cantidad=0;
+                                    me.precio=0; 
+                                }
+                        }
                 }
-
-                
-
             },
             agregarDetalleModal(data =[]){
                 let me=this;
@@ -692,36 +698,48 @@
                 
                 let me = this;
 
-                axios.post('/venta/registrar',{
-                    'idcliente': this.idcliente,
-                    'total' : this.total,
-                    'data': this.arrayDetalle
-                }).then(function (response) {
+                if(this.arrayDetalle.length <=0){
                     Swal.fire({
-                        icon: "success",
-                        title: "Pedido registrado satisfactoriamente",
-                        text: "El pedido esta en estado REGISTRADO, cuando el cliente acepte el precio total con IVA incluido, pasara a COTIZACIÓN.",
+                        icon: "error",
+                        title: "No hay productos para registrar pedido",
                         showConfirmButton: false,
-                        timer: 2500
+                        timer: 1500
                     });
-                    me.listado=1;
-                    me.listarVenta(1,'','estado');
-                    me.idcliente=0;
-                    me.total=0.0;
-                    me.idarticulo=0;
-                    me.articulo='';
-                    me.cantidad=0;
-                    me.precio=0;
-                    me.codigo='';
-                    me.leyenda1='';
-                    me.leyenda2='';
-                    me.leyenda3='';
-                    me.leyenda4='';
-                    me.arrayDetalle=[];
+                }
+                else {
+                    axios.post('/venta/registrar',{
+                                'idcliente': this.idcliente,
+                                'total' : this.total,
+                                'data': this.arrayDetalle
+                            }).then(function (response) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pedido registrado satisfactoriamente",
+                                    text: "El pedido esta en estado REGISTRADO",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+                                me.listado=1;
+                                me.listarVenta(1,'','estado');
+                                me.idcliente=0;
+                                me.total=0.0;
+                                me.idarticulo=0;
+                                me.articulo='';
+                                me.cantidad=0;
+                                me.precio=0;
+                                me.codigo='';
+                                me.leyenda1='';
+                                me.leyenda2='';
+                                me.leyenda3='';
+                                me.leyenda4='';
+                                me.arrayDetalle=[];
 
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                }
+
+        
             },
             validarVenta(){
                 var url= '/venta/verCliente';
