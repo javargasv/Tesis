@@ -63874,7 +63874,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.inp {\n    background: #fff !important;\n    margin-left: 1rem;\n    border-radius: 10px;\n    box-shadow: 3px 4px 7px 0px #808080b8;\n    text-align: center;\n    color: #000000b0 !important;\n    text-transform: uppercase;\n}\n.invisible {\n    display:none;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n\n", ""]);
+exports.push([module.i, "\n.noeditar {\n    background: #d0d0d0a8 !important;\n    pointer-events: none;\n}\n.inp {\n    background: #fff !important;\n    margin-left: 1rem;\n    border-radius: 10px;\n    box-shadow: 3px 4px 7px 0px #808080b8;\n    text-align: center;\n    color: #000000b0 !important;\n    text-transform: uppercase;\n}\n.invisible {\n    display:none;\n}\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n@media (min-width: 600px) {\n.btnagregar {\n        margin-top: 2rem;\n}\n}\n\n", ""]);
 
 // exports
 
@@ -63887,6 +63887,7 @@ exports.push([module.i, "\n.inp {\n    background: #fff !important;\n    margin-
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_select__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_select___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_select__);
+//
 //
 //
 //
@@ -64397,6 +64398,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (selected === 'Fecha-Hora') {
                 me.buscar = '';
                 $('.textoBusqueda').attr('placeholder', 'AAAA-MM-DD');
+            } else {
+                me.buscar = '';
+                $('.textoBusqueda').attr('placeholder', '$ 1000');
             }
         },
         formato: function formato(value) {
@@ -64487,7 +64491,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         agregarDetalle: function agregarDetalle() {
             var me = this;
-            if (me.idarticulo == 0 || me.cantidad == 0 || me.precio == 0) {} else {
+            if (me.idarticulo == 0 || me.cantidad == 0 || me.precio == 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Por favor complete todos los campos requeridos",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
                 if (me.encuentra(me.idarticulo)) {
                     Swal.fire({
                         icon: "error",
@@ -64496,6 +64507,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         timer: 1500
                     });
                 } else {
+                    $('.btnagregar').removeClass('btn-secondary');
+                    $('#btnagregar').addClass('btn-success');
                     me.arrayDetalle.push({
                         idarticulo: me.idarticulo,
                         articulo: me.articulo,
@@ -64625,6 +64638,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(usuario);
                 if (usuario == 3) {
                     $('#verc').addClass('invisible');
+                    $('.preciocliente').addClass('noeditar');
                 }
             });
         },
@@ -64817,6 +64831,10 @@ var render = function() {
                             _vm._v(" "),
                             _c("option", { attrs: { value: "fecha_hora" } }, [
                               _vm._v("Fecha-Hora")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "total" } }, [
+                              _vm._v("Total")
                             ])
                           ]
                         ),
@@ -65425,7 +65443,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Precio")]),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -65436,7 +65454,7 @@ var render = function() {
                               expression: "precio"
                             }
                           ],
-                          staticClass: "form-control",
+                          staticClass: "form-control preciocliente",
                           attrs: { type: "number", value: "0", step: "any" },
                           domProps: { value: _vm.precio },
                           on: {
@@ -65453,7 +65471,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Cantidad")]),
+                        _vm._m(3),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -65485,7 +65503,8 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "btn btn-success form-control btnagregar",
+                              "btn btn-secondary form-control btnagregar",
+                            attrs: { id: "btnagregar" },
                             on: {
                               click: function($event) {
                                 return _vm.agregarDetalle()
@@ -65507,7 +65526,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(2),
+                          _vm._m(4),
                           _vm._v(" "),
                           _vm.arrayDetalle.length
                             ? _c(
@@ -65669,7 +65688,7 @@ var render = function() {
                                               expression: "detalle.precio"
                                             }
                                           ],
-                                          staticClass: "form-control",
+                                          staticClass: "form-control noeditar",
                                           attrs: { type: "number" },
                                           domProps: { value: detalle.precio },
                                           on: {
@@ -65738,7 +65757,7 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(3),
+                                      _vm._m(5),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
@@ -65755,7 +65774,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(4)])
+                            : _c("tbody", [_vm._m(6)])
                         ]
                       )
                     ])
@@ -65810,7 +65829,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(5)
+                    _vm._m(7)
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row border" }, [
@@ -65822,7 +65841,7 @@ var render = function() {
                             "table table-bordered table-striped table-sm"
                         },
                         [
-                          _vm._m(6),
+                          _vm._m(8),
                           _vm._v(" "),
                           _vm.arrayDetalle.length
                             ? _c(
@@ -65895,7 +65914,7 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._m(7),
+                                      _vm._m(9),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
@@ -65907,7 +65926,7 @@ var render = function() {
                                 ],
                                 2
                               )
-                            : _c("tbody", [_vm._m(8)])
+                            : _c("tbody", [_vm._m(10)])
                         ]
                       )
                     ])
@@ -66022,8 +66041,8 @@ var render = function() {
                             _vm._v("Nombre")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "descripcion" } }, [
-                            _vm._v("Descripción")
+                          _c("option", { attrs: { value: "precio_venta" } }, [
+                            _vm._v("Precio")
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "codigo" } }, [
@@ -66102,7 +66121,7 @@ var render = function() {
                       staticClass: "table table-bordered table-striped table-sm"
                     },
                     [
-                      _vm._m(9),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -66247,6 +66266,28 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-3" }, [
       _c("span", { staticClass: "badge badge-warning" }, [
         _vm._v("Valor del pedido antes de IVA")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [
+      _vm._v("Precio "),
+      _c("span", { staticClass: "removespan", staticStyle: { color: "red" } }, [
+        _vm._v("(*)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [
+      _vm._v("Cantidad "),
+      _c("span", { staticClass: "removespan", staticStyle: { color: "red" } }, [
+        _vm._v("(*)")
       ])
     ])
   },

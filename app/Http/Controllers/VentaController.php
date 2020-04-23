@@ -38,6 +38,7 @@ class VentaController extends Controller {
                 'ventas.estado','personas.nombre','users.usuario')
                 ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
                 ->orderBy('ventas.id', 'desc')->paginate(5);
+                
             }
             
             return [
@@ -49,6 +50,7 @@ class VentaController extends Controller {
                     'from'         => $ventas->firstItem(),
                     'to'           => $ventas->lastItem(),
                 ],
+                
                 'ventas' => $ventas
             ];
         }
@@ -68,12 +70,12 @@ class VentaController extends Controller {
                 ->where('ventas.idcliente','=',$idusuario)
                 ->orderBy('ventas.id', 'desc')->paginate(5);
             }
-            else{
+            else {
                 $ventas = Venta::join('personas','ventas.idcliente','=','personas.id')
                 ->join('users','ventas.idusuario','=','users.id')
                 ->select('ventas.id','ventas.created_at','ventas.total',
                 'ventas.estado','personas.nombre','users.usuario')
-                ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
+                ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%','AND','ventas.idcliente','=',$idusuario)
                 ->orderBy('ventas.id', 'desc')->paginate(5);
             }
             
@@ -86,6 +88,7 @@ class VentaController extends Controller {
                     'from'         => $ventas->firstItem(),
                     'to'           => $ventas->lastItem(),
                 ],
+
                 'ventas' => $ventas
             ];
         }

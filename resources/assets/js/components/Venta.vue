@@ -21,6 +21,7 @@
                                         <option value="id">N° de pedido</option>
                                         <option value="estado">Estado</option>
                                         <option value="fecha_hora">Fecha-Hora</option>
+                                        <option value="total">Total</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarVenta(1,buscar,criterio)" class="form-control textoBusqueda" placeholder="Ej: Registrado/Rechazado/Aceptado...">
                                     <button type="submit" @click="listarVenta(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
@@ -171,19 +172,19 @@
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Precio</label>
-                                    <input type="number" value="0" step="any" class="form-control" v-model="precio">
+                                    <label>Precio <span style="color:red;" class="removespan">(*)</span></label>
+                                    <input type="number" value="0" step="any" class="form-control preciocliente" v-model="precio">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Cantidad</label>
+                                    <label>Cantidad <span style="color:red;" class="removespan">(*)</span></label>
                                     <input type="number" value="0" class="form-control" v-model="cantidad">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>
+                                    <button @click="agregarDetalle()" class="btn btn-secondary form-control btnagregar" id="btnagregar"><i class="icon-plus"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +226,7 @@
                                                 <input v-model="detalle.leyenda4" type="text"  class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.precio" type="number" class="form-control">
+                                                <input v-model="detalle.precio" type="number" class="form-control noeditar">
                                             </td>
                                             <td>
                                                 <input v-model="detalle.cantidad" type="number" class="form-control">
@@ -353,7 +354,7 @@
                                     <div class="input-group">
                                         <select class="form-control col-md-4" v-model="criterioA">
                                         <option value="nombre">Nombre</option>
-                                        <option value="descripcion">Descripción</option>
+                                        <option value="precio_venta">Precio</option>
                                         <option value="codigo">Código</option>
                                         </select>
                                         <input type="text" v-model="buscarA" @keyup.enter="listarArticulo(buscarA,criterioA)" class="form-control" placeholder="Texto a buscar">
@@ -507,6 +508,9 @@
                 } else if (selected === 'Fecha-Hora') {
                     me.buscar='';
                     $('.textoBusqueda').attr('placeholder','AAAA-MM-DD')
+                } else {
+                    me.buscar='';
+                    $('.textoBusqueda').attr('placeholder','$ 1000')
                 }
             },
             formato(value) {
@@ -602,6 +606,12 @@
             agregarDetalle(){
                 let me=this;
                 if(me.idarticulo==0 || me.cantidad==0 || me.precio==0){
+                    Swal.fire({
+                        icon: "error",
+                        title: "Por favor complete todos los campos requeridos",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
                 else{
                     if(me.encuentra(me.idarticulo)){
@@ -613,6 +623,8 @@
                     });
                     }
                     else{
+                        $('.btnagregar').removeClass('btn-secondary');
+                        $('#btnagregar').addClass('btn-success');
                         me.arrayDetalle.push({
                         idarticulo: me.idarticulo,
                         articulo: me.articulo,
@@ -748,6 +760,7 @@
                         console.log(usuario);
                         if(usuario==3){
                             $('#verc').addClass('invisible');
+                            $('.preciocliente').addClass('noeditar');
                         }
                     });
             },
@@ -858,6 +871,11 @@
     }
 </script>
 <style>
+
+    .noeditar {
+        background: #d0d0d0a8 !important;
+        pointer-events: none;
+    }
 
     .inp {
         background: #fff !important;
