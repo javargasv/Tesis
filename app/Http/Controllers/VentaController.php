@@ -75,7 +75,8 @@ class VentaController extends Controller {
                 ->join('users','ventas.idusuario','=','users.id')
                 ->select('ventas.id','ventas.created_at','ventas.total',
                 'ventas.estado','personas.nombre','users.usuario')
-                ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%','AND','ventas.idcliente','=',$idusuario)
+                ->where('ventas.'.$criterio, 'like', '%'. $buscar . '%')
+                ->where('ventas.idcliente','=',$idusuario)
                 ->orderBy('ventas.id', 'desc')->paginate(5);
             }
             

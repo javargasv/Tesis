@@ -28,7 +28,6 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
                                     <th>Tipo Documento</th>
@@ -39,25 +38,11 @@
                                     <th>Usuario</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="persona in arrayPersona" :key="persona.id">
-                                    <td>
-                                        <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
-                                          <i class="icon-pencil"></i>
-                                        </button>&nbsp;
-                                        <template v-if="persona.condicion">
-                                            <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
-                                                <i class="icon-trash"></i>
-                                            </button>
-                                        </template>
-                                        <template v-else>
-                                            <button type="button" class="btn btn-info btn-sm" @click="activarUsuario(persona.id)">
-                                                <i class="icon-check"></i>
-                                            </button>
-                                        </template>
-                                    </td>
                                     <td v-text="persona.nombre"></td>
                                     <td v-text="persona.apellido"></td>
                                     <td v-text="persona.tipo_documento"></td>
@@ -74,6 +59,21 @@
                                         <div v-else>
                                         <span class="badge badge-danger">De baja</span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
+                                            <i class="icon-pencil"></i>
+                                        </button>&nbsp;
+                                        <template v-if="persona.condicion">
+                                            <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
+                                                <i class="icon-trash"></i>
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="button" class="btn btn-info btn-sm" @click="activarUsuario(persona.id)">
+                                                <i class="icon-check"></i>
+                                            </button>
+                                        </template>
                                     </td>
                                 </tr>                                
                             </tbody>
@@ -303,36 +303,54 @@
                 //Envia la petición para visualizar la data de esa página
                 me.listarPersona(page,buscar,criterio);
             },
+            encuentra(num){
+                var sw=0;
+                for(var i=0;i<this.arrayPersona.length;i++){
+                    if(this.arrayPersona[i].num_documento==num){
+                        sw=true;
+                    }
+                }
+                return sw;
+            },
             registrarPersona(){
                 if (this.validarPersona()){
                     return;
                 }
                 
                 let me = this;
-
-                axios.post('/user/registrar',{
-                    'nombre': this.nombre,
-                    'apellido': this.apellido,
-                    'tipo_documento': this.tipo_documento,
-                    'num_documento' : this.num_documento,
-                    'direccion' : this.direccion,
-                    'telefono' : this.telefono,
-                    'email' : this.email,
-                    'usuario': this.usuario,
-                    'password': this.password,
-                    'idrol' : this.idrol
-
-                }).then(function (response) {
-                    me.cerrarModal();
-                    Swal.fire(
-                    'Creado',
-                    'El nuevo usuario del sistema se ha creado exitosamente',
-                    'success'
-                    )
-                    me.listarPersona(1,'','nombre');
-                }).catch(function (error) {
-                    console.log(error);
+                if(me.encuentra(me.num_documento)){
+                    Swal.fire({
+                    icon: "error",
+                    title: "El usuario ya se encuentra registrado",
+                    showConfirmButton: false,
+                    timer: 1500
                 });
+                }
+                else { 
+                    axios.post('/user/registrar',{
+                        'nombre': this.nombre,
+                        'apellido': this.apellido,
+                        'tipo_documento': this.tipo_documento,
+                        'num_documento' : this.num_documento,
+                        'direccion' : this.direccion,
+                        'telefono' : this.telefono,
+                        'email' : this.email,
+                        'usuario': this.usuario,
+                        'password': this.password,
+                        'idrol' : this.idrol
+
+                    }).then(function (response) {
+                        me.cerrarModal();
+                        Swal.fire(
+                        'Creado',
+                        'El nuevo usuario del sistema se ha creado exitosamente',
+                        'success'
+                        )
+                        me.listarPersona(1,'','nombre');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
             },
             actualizarPersona(){
                if (this.validarPersona()){
@@ -364,7 +382,11 @@
                 }).catch(function (error) {
                     console.log(error);
                 }); 
-            },            
+            },
+            validEmail: function (email) {
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            },                
             validarPersona(){ 
                 this.errorPersona=0;
                 this.errorMostrarMsjPersona =[];
@@ -374,7 +396,11 @@
                 if (!this.password) this.errorMostrarMsjPersona.push("La password no puede estar vacía.");
                 if (this.idrol==0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
                 if (this.tipo_documento=="") this.errorMostrarMsjPersona.push("Debes seleccionar un tipo de documento del usuario.");
-
+                 /////////VALIDACION DE EMAIL //////////////////
+                if(!this.validEmail(this.email))
+                this.errorMostrarMsjPersona.push(
+                    "El correo no es válido"
+                );
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
                 return this.errorPersona;

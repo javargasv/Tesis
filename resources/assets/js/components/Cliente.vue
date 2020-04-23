@@ -491,38 +491,56 @@ export default {
             me.listarPersonas(page, buscar, criterio);
         },
 
-        registrarPersona() {
-            if (this.validarPersona()) {
-                return;
-            }
-
+        encuentra(num){
+                var sw=0;
+                for(var i=0;i<this.arrayPersona.length;i++){
+                    if(this.arrayPersona[i].num_documento==num){
+                        sw=true;
+                    }
+                }
+                return sw;
+        },
+       registrarPersona() {
+        if (this.validarPersona()) {
+            return;
+        }
             let me = this;
-            axios
-                .post("/cliente/registrar", {
-                    nombre: this.nombre,
-                    apellido: this.apellido,
-                    tipo_documento: this.tipo_documento,
-                    num_documento: this.num_documento,
-                    email: this.email,
-                    telefono: this.telefono,
-                    direccion: this.direccion,
-                    razon_social: this.razon_social,
-                    nombre_empresa: this.nombre_empresa
-                })
-                .then(function(response) {
-                    me.cerrarModal();
-                    me.listarPersonas(1, "", "nombre");
-                    Swal.fire({
-                        icon: "success",
-                        title: "Cliente creado exitosamente",
+            if(me.encuentra(me.num_documento)){
+                        Swal.fire({
+                        icon: "error",
+                        title: "El cliente ya se encuentra registrado",
                         showConfirmButton: false,
                         timer: 1500
+            });
+            }
+            else {
+                axios
+                    .post("/cliente/registrar", {
+                        nombre: this.nombre,
+                        apellido: this.apellido,
+                        tipo_documento: this.tipo_documento,
+                        num_documento: this.num_documento,
+                        email: this.email,
+                        telefono: this.telefono,
+                        direccion: this.direccion,
+                        razon_social: this.razon_social,
+                        nombre_empresa: this.nombre_empresa
+                    })
+                    .then(function(response) {
+                        me.cerrarModal();
+                        me.listarPersonas(1, "", "nombre");
+                        Swal.fire({
+                            icon: "success",
+                            title: "Cliente creado exitosamente",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        me.DeshabilitarEmpresa();
+                    })
+                    .catch(function(error) {
+                        console.log(error);
                     });
-                    me.DeshabilitarEmpresa();
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+                }
         },
 
         actualizarPersona() {

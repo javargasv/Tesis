@@ -28,15 +28,26 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Opciones</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Precio venta</th>
                                     <th>Estado</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="articulo in arrayArticulo" :key="articulo.id">
+                                    <td v-text="articulo.nombre"></td>
+                                    <td v-text="articulo.descripcion"></td>
+                                    <td>$ {{formato(articulo.precio_venta)}}</td>
+                                    <td>
+                                        <div v-if="articulo.condicion">
+                                        <span class="badge badge-success">Activo</span>
+                                        </div>
+                                        <div v-else>
+                                        <span class="badge badge-danger">No disponible</span>
+                                        </div>
+                                    </td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm">
                                         <i class="icon-pencil" @click="abrirModal('articulo','actualizar',articulo)"></i>
@@ -46,22 +57,11 @@
                                             <i class="icon-trash"></i>
                                             </button>
                                         </template>
-                                         <template v-else>
+                                        <template v-else>
                                             <button type="button" class="btn btn-info btn-sm" @click="activarArticulo(articulo.id)">
                                             <i class="icon-check"></i>
                                             </button>
                                         </template>
-                                    </td>
-                                    <td v-text="articulo.nombre"></td>
-                                    <td v-text="articulo.descripcion"></td>
-                                    <td v-text="articulo.precio_venta,3"></td>
-                                    <td>
-                                        <div v-if="articulo.condicion">
-                                        <span class="badge badge-success">Activo</span>
-                                        </div>
-                                        <div v-else>
-                                        <span class="badge badge-danger">No disponible</span>
-                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -111,7 +111,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Precio de venta</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="precio_venta" class="form-control" placeholder="Ingrese el precio de venta">
+                                        <input type="text" v-model="precio_venta" class="form-control" placeholder="$ 5000">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -203,6 +203,10 @@
         },
 
         methods: {
+            formato(value) {
+                let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            },
             listarArticulos(page,buscar,criterio){
                 let me = this;
                 var url = '/articulo?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -215,7 +219,6 @@
                     console.log(error);
                 })
             },
-
             cambiarPagina(page, buscar, criterio){
               let me = this;
             //actualiza la pagina actual
