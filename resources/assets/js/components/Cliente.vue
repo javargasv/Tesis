@@ -581,7 +581,11 @@ export default {
                 $(".campoempresa").removeClass("deshabilitar");
             }
         },
-
+        /////////FUNCION PARA VALIDAR EMAIL //////////////////
+        validEmail: function (email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        },
         validarPersona() {
             this.errorPersona = 0;
             this.errorMostrarMsjPersona = [];
@@ -600,6 +604,11 @@ export default {
             if (!this.email)
                 this.errorMostrarMsjPersona.push(
                     "El correo del cliente no puede estar vacío"
+                );
+            /////////VALIDACION DE EMAIL //////////////////
+            if(!this.validEmail(this.email))
+                this.errorMostrarMsjPersona.push(
+                    "El correo no es válido"
                 );
             if (!this.telefono)
                 this.errorMostrarMsjPersona.push(

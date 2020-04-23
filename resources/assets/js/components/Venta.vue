@@ -17,12 +17,12 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterio">
-                                        <option value="idcliente">Cliente</option>
+                                    <select class="form-control col-md-3" v-model="criterio" id="selec" @click="textoplace()">
+                                        <option value="id">N° de pedido</option>
                                         <option value="estado">Estado</option>
                                         <option value="fecha_hora">Fecha-Hora</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarVenta(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <input type="text" v-model="buscar" @keyup.enter="listarVenta(1,buscar,criterio)" class="form-control textoBusqueda" placeholder="Ej: Registrado/Rechazado/Aceptado...">
                                     <button type="submit" @click="listarVenta(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
@@ -31,6 +31,7 @@
                             <table class="table table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
+                                        <th>N° pedido</th>
                                         <th>Cliente</th>
                                         <th>Fecha Hora</th>
                                         <th>Total</th>
@@ -40,6 +41,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="venta in arrayVenta" :key="venta.id">
+                                        <td v-text="venta.id"></td>
                                         <td v-text="venta.nombre"></td>
                                         <td v-text="venta.created_at"></td>
                                         <td>$ {{formato(venta.total)}}</td>
@@ -133,9 +135,9 @@
                                 <div class="form-group">
                                     <label>Artículo <span style="color:red;" v-show="idarticulo==0">(*Seleccione)</span></label>
                                     <div class="form-inline">
-                                        <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarArticulo()" placeholder="Ingrese artículo">
-                                        <button @click="abrirModal()" class="btn btn-primary">...</button>
-                                        <input type="text" readonly class="form-control" v-model="articulo">
+                                        <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarArticulo()" placeholder="Código producto">
+                                        <button @click="listarArticulo(buscarA,criterioA),abrirModal()" class="btn btn-primary">Buscar producto&nbsp;&nbsp;<i class="fa fa-search"></i></button>
+                                        <input type="text" readonly class="form-control inp" v-model="articulo">
                                     </div>                                    
                                 </div>
                             </div>
@@ -229,12 +231,12 @@
                                                 <input v-model="detalle.cantidad" type="number" class="form-control">
                                             </td>
                                             <td>
-                                                {{detalle.precio*detalle.cantidad,3}}
+                                                $ {{formato(detalle.precio*detalle.cantidad)}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="8" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{total=calcularTotal,3}}</td>
+                                            <td>$ {{formato(total=calcularTotal)}}</td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -305,12 +307,12 @@
                                             <td v-text="detalle.leyenda4">
                                             </td>
                                             <td>
-                                                {{detalle.precio*detalle.cantidad,3}}
+                                                $ {{formato(detalle.precio*detalle.cantidad)}}
                                             </td>
                                         </tr>
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="7" align="right"><strong>Total Parcial:</strong></td>
-                                            <td>$ {{total,3}}</td>
+                                            <td>$ {{formato(total)}}</td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -379,7 +381,7 @@
                                             </td>
                                             <td v-text="articulo.codigo"></td>
                                             <td v-text="articulo.nombre"></td>
-                                            <td v-text="articulo.precio_venta"></td>
+                                            <td>$ {{formato(articulo.precio_venta)}}</td>
                                             <td>
                                                 <div v-if="articulo.condicion">
                                                     <span class="badge badge-success">Activo</span>
@@ -491,6 +493,22 @@
             }
         },
         methods : {
+            textoplace(){
+                let me = this;
+                var combo = document.getElementById("selec");
+                var selected = combo.options[combo.selectedIndex].text;
+                console.log(selected);
+                if(selected === 'N° de pedido'){
+                    me.buscar='';
+                    $('.textoBusqueda').attr('placeholder','Número del pedido')
+                } else if (selected === 'Estado') {
+                    me.buscar='';
+                    $('.textoBusqueda').attr('placeholder','Ej: Registrado/Rechazado/Aceptado...')
+                } else if (selected === 'Fecha-Hora') {
+                    me.buscar='';
+                    $('.textoBusqueda').attr('placeholder','AAAA-MM-DD')
+                }
+            },
             formato(value) {
                 let val = (value/1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -502,6 +520,15 @@
                     var respuesta= response.data;
                     me.arrayVenta = respuesta.ventas.data;
                     me.pagination= respuesta.pagination;
+                    if(me.arrayVenta.length == 0) {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "No hay registro",
+                            text: "No se encuentra resultados de tu búsqueda",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -830,7 +857,17 @@
         }
     }
 </script>
-<style>    
+<style>
+
+    .inp {
+        background: #fff !important;
+        margin-left: 1rem;
+        border-radius: 10px;
+        box-shadow: 3px 4px 7px 0px #808080b8;
+        text-align: center;
+        color: #000000b0 !important;
+        text-transform: uppercase;
+    }
 
     .invisible {
         display:none;
