@@ -78,6 +78,9 @@
                                                     <i class="icon-trash"></i>
                                                 </button>
                                             </template>
+                                            &nbsp;&nbsp;<button type="button" @click="abrirModal2(venta.id)" class="btn btn-warning btn-sm botoneditar">
+                                                <i class="icon-pencil"></i>
+                                            </button>
                                         </td>
                                     </tr>                                
                                 </tbody>
@@ -226,7 +229,7 @@
                                                 <input v-model="detalle.leyenda4" type="text"  class="form-control">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.precio" type="number" class="form-control noeditar">
+                                                <input v-model="detalle.precio" type="number" class="form-control preciodeta">
                                             </td>
                                             <td>
                                                 <input v-model="detalle.cantidad" type="number" class="form-control">
@@ -408,6 +411,36 @@
                 <!-- /.modal-dialog -->
             </div>
             <!--Fin del modal-->
+                        <!--actualizar pedido-->
+            <div class="modal fade" tabindex="-1" :class="{'mostrar modal fade' : modal2}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal2"></h4>
+                            <button type="button" class="close" @click="cerrarModal2()" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <p class="text-center mt-3 mb-3">Ingrese el nuevo estado del pedido</p>
+                            <select class="form-control col-md-3 mb-3 mt-3" v-model="estado" style="margin:auto;" @change="onChange($event)">
+                                <option value="Registrado">Registrado</option>
+                                <option value="Cotizando">Cotizando</option>
+                                <option value="Aceptado">Aceptado</option>
+                                <option value="En despacho">Cotizando</option>
+                                <option value="Entregado">Entregado</option>
+                            </select>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModal2()">Cerrar</button>
+                            <button type="button" class="btn btn-success" @click="cambiarestado()">Actualizar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--Fin del modal-->
         </main>
 </template>
 
@@ -426,7 +459,9 @@
                 arrayDetalle : [],
                 listado:1,
                 modal : 0,
+                modal2: 0,
                 tituloModal : '',
+                tituloModal2 : '',
                 tipoAccion : 0,
                 errorVenta : 0,
                 errorMostrarMsjVenta : [],
@@ -452,7 +487,8 @@
                 leyenda1: '',
                 leyenda2: '',
                 leyenda3: '',
-                leyenda4: ''
+                leyenda4: '',
+                estado: ''
             }
         },
         components: {
@@ -524,6 +560,7 @@
                     var respuesta= response.data;
                     me.arrayVenta = respuesta.ventas.data;
                     me.pagination= respuesta.pagination;
+                    me.verCliente();
                     if(me.arrayVenta.length == 0) {
                         Swal.fire({
                             icon: "warning",
@@ -667,7 +704,8 @@
                         timer: 1500
                     });
                     }
-                    else{
+                    else{   
+                            me.verCliente();
                             me.arrayDetalle.push({
                             idarticulo: data['id'],
                             articulo: data['nombre'],
@@ -779,6 +817,8 @@
                         if(usuario==3){
                             $('#verc').addClass('invisible');
                             $('.preciocliente').addClass('noeditar');
+                            $('.botoneditar').addClass('invisibility');
+                            $('.preciodeta').addClass('noeditar');
                         }
                     });
             },
@@ -840,11 +880,21 @@
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
+            },
+            cerrarModal2(){
+                this.modal2=0;
+                this.tituloModal2='';
             }, 
             abrirModal(){               
                 this.arrayArticulo=[];
                 this.modal = 1;
                 this.tituloModal = 'Seleccione uno o varios artículos';
+            },
+            abrirModal2(id){           
+                this.modal2 = 1;
+                this.tituloModal2 = 'Seleccione el estado';
+                this.venta_id = id;
+                console.log(id);
             },
             desactivarVenta(id){
                 Swal.fire({
@@ -882,6 +932,55 @@
                 }
                 }) 
             },
+            cambiarestado(){
+                
+                Swal.fire({
+                title: 'Cambiar el estado del pedido',
+                text: "El estado se verá reflejado en el panel del cliente",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, cambiar!',
+                cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.value) {
+                    let me = this;
+                    if(me.estado == ''){
+                        swal.fire(
+                        'Estado vacío',
+                        'Ingresa un estado para el pedido',
+                        'error'
+                        )
+                    }else {
+                        axios.put('/venta/cambiarestado',{
+                            id: me.venta_id,
+                            estado: me.estado
+                    }).then(function (response) {
+                        me.listarVenta(1,'','num_comprobante');
+                        swal.fire(
+                        'Actualizado!',
+                        'El pedido ha sido actualizado con éxito.',
+                        'success'
+                        )
+                        me.cerrarModal2();
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    }
+
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
+                    
+                }
+                }) 
+            },
+            onChange(event) {
+                console.log(event.target.value);
+                this.estado = event.target.value;
+            }
         },
         mounted() {
             this.listarVenta(1,this.buscar,this.criterio);
@@ -889,6 +988,10 @@
     }
 </script>
 <style>
+
+    .invisibility {
+        visibility: hidden;
+    }
 
     .noeditar {
         background: #d0d0d0a8 !important;

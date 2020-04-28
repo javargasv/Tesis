@@ -240,6 +240,14 @@ class VentaController extends Controller {
         }
     }
 
+    public function cambiarestado(Request $request)
+    {   
+        if (!$request->ajax()) return redirect('/');
+        $venta = Venta::findOrFail($request->id);
+        $venta->estado = $request->estado;
+        $venta->save();
+    }
+
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

@@ -53,10 +53,10 @@
                                     <td v-text="persona.usuario"></td>
                                     <td v-text="persona.rol"></td>
                                     <td>
-                                        <div v-if="persona.condicion">
+                                        <div v-if="persona.condicion == 1">
                                         <span class="badge badge-success">Activo</span>
                                         </div>
-                                        <div v-else>
+                                        <div v-if="persona.condicion == 0">
                                         <span class="badge badge-danger">De baja</span>
                                         </div>
                                     </td>
@@ -64,12 +64,12 @@
                                         <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
                                             <i class="icon-pencil"></i>
                                         </button>&nbsp;
-                                        <template v-if="persona.condicion">
+                                        <template v-if="persona.condicion == 1">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
                                                 <i class="icon-trash"></i>
                                             </button>
                                         </template>
-                                        <template v-else>
+                                        <template v-if="persona.condicion == 0">
                                             <button type="button" class="btn btn-info btn-sm" @click="activarUsuario(persona.id)">
                                                 <i class="icon-check"></i>
                                             </button>

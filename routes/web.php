@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/venta/obtenerDetalles','VentaController@obtenerDetalles');
         Route::get('/venta/pdf/{id}','VentaController@pdf')->name('venta_pdf');
         Route::get('/venta/verCliente','VentaController@verCliente');
+        Route::put('/venta/cambiarestado','VentaController@cambiarestado');
 
         Route::get('/articulo/buscarArticuloVenta','ArticuloController@buscarArticuloVenta');
         Route::get('/articulo/listarArticuloVenta','ArticuloController@listarArticuloVenta');
