@@ -47,17 +47,20 @@
                                         <td v-text="venta.created_at"></td>
                                         <td>$ {{formato(venta.total)}}</td>
                                         <td>
-                                            <div v-if="venta.estado=='Registrado'">
-                                            <span class="badge badge-primary">Registrado</span>
-                                            </div>
                                             <div v-if="venta.estado=='Cotizando'">
-                                            <span class="badge badge-info">Cotizando</span>
+                                            <span class="badge badge-primary">Cotizando</span>
+                                            </div>
+                                            <div v-if="venta.estado=='Registrado'">
+                                            <span class="badge badge-info">Registrado</span>
                                             </div>
                                             <div v-if="venta.estado=='Aceptado'">
                                             <span class="badge badge-dark">Aceptado</span>
                                             </div>
-                                            <div v-if="venta.estado=='En despacho'">
-                                            <span class="badge badge-light">Cotizando</span>
+                                            <div v-if="venta.estado=='Imprimiendo'">
+                                            <span class="badge badge-light">Imprimiendo</span>
+                                            </div>
+                                            <div v-if="venta.estado=='Despachado-facturado'">
+                                            <span class="badge badge-success">Despachado-facturado</span>
                                             </div>
                                             <div v-if="venta.estado=='Entregado'">
                                             <span class="badge badge-success">Entregado</span>
@@ -74,11 +77,19 @@
                                             <i class="icon-doc"></i>
                                             </button> &nbsp;
                                             <template v-if="venta.estado !='Rechazado/cancelado'">
-                                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarVenta(venta.id)">
-                                                    <i class="icon-trash"></i>
-                                                </button>
+                                                <template v-if="venta.estado !='Aceptado'">
+                                                    <template v-if="venta.estado !='Imprimiendo'">
+                                                        <template v-if="venta.estado !='Despachado-facturado'">
+                                                            <template v-if="venta.estado !='Entregado'">
+                                                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarVenta(venta.id)">
+                                                                    <i class="icon-trash"></i>
+                                                                </button>
+                                                            </template> 
+                                                        </template> 
+                                                    </template>        
+                                                </template>     
                                             </template>
-                                            &nbsp;&nbsp;<button type="button" @click="abrirModal2(venta.id)" class="btn btn-warning btn-sm botoneditar">
+                                            &nbsp;&nbsp;<button type="button" @click="abrirModal2(venta.id)" class="btn btn-warning btn-sm botoneditar invisible">
                                                 <i class="icon-pencil"></i>
                                             </button>
                                         </td>
@@ -147,28 +158,28 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Leyenda N° 1</label>
+                                    <label>Descripción #1</label>
                                     <input type="text" step="any" class="form-control" v-model="leyenda1">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Leyenda N° 2</label>
+                                    <label>Descripción #2</label>
                                     <input type="text" step="any" class="form-control" v-model="leyenda2">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Leyenda N° 3</label>
+                                    <label>Descripción #3</label>
                                     <input type="text" step="any" class="form-control" v-model="leyenda3">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Leyenda N° 4</label>
+                                    <label>Descripción #4</label>
                                     <input type="text" step="any" class="form-control" v-model="leyenda4">
                                 </div>
                             </div>
@@ -198,10 +209,10 @@
                                         <tr>
                                             <th>Opciones</th>
                                             <th>Artículo</th>
-                                            <th>Leyenda 1</th>
-                                            <th>Leyenda 2</th>
-                                            <th>Leyenda 3</th>
-                                            <th>Leyenda 4</th>
+                                            <th>Descripción #1</th>
+                                            <th>Descripción #2</th>
+                                            <th>Descripción #3</th>
+                                            <th>Descripción #4</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
                                             <th>Subtotal</th>
@@ -287,11 +298,11 @@
                                             <th>Artículo</th>
                                             <th>Precio</th>
                                             <th>Cantidad</th>
-                                            <th>Leyenda1</th>
-                                            <th>Leyenda2</th>
-                                            <th>Leyenda3</th>
-                                            <th>Leyenda4</th>
-                                            <th>Subtotal</th>
+                                            <th>Descripción #1</th>
+                                            <th>Descripción #2</th>
+                                            <th>Descripción #3</th>
+                                            <th>Descripción #4</th>
+                                            <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="arrayDetalle.length">
@@ -337,7 +348,7 @@
                         </div>
                     </div>
                     </template>
-                    <!-- fin ver ingreso -->
+                    <!-- fin ver Pedido -->
                 </div>
                 <!-- Fin ejemplo de tabla Listado -->
             </div>
@@ -423,10 +434,11 @@
                         </div>
                         <p class="text-center mt-3 mb-3">Ingrese el nuevo estado del pedido</p>
                             <select class="form-control col-md-3 mb-3 mt-3" v-model="estado" style="margin:auto;" @change="onChange($event)">
-                                <option value="Registrado">Registrado</option>
                                 <option value="Cotizando">Cotizando</option>
+                                <option value="Registrado">Registrado</option>
                                 <option value="Aceptado">Aceptado</option>
-                                <option value="En despacho">Cotizando</option>
+                                <option value="Imprimiendo">Imprimiendo</option>
+                                <option value="Despachado-facturado">Despachado-facturado</option>
                                 <option value="Entregado">Entregado</option>
                             </select>
 
@@ -557,10 +569,10 @@
                 let me=this;
                 var url= '/venta?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
+                    me.verCliente();
                     var respuesta= response.data;
                     me.arrayVenta = respuesta.ventas.data;
                     me.pagination= respuesta.pagination;
-                    me.verCliente();
                     if(me.arrayVenta.length == 0) {
                         Swal.fire({
                             icon: "warning",
@@ -671,6 +683,7 @@
                             else{
                                     $('.btnagregar').removeClass('btn-secondary');
                                     $('#btnagregar').addClass('btn-success');
+                                    me.verCliente();
                                     me.arrayDetalle.push({
                                     idarticulo: me.idarticulo,
                                     articulo: me.articulo,
@@ -820,6 +833,9 @@
                             $('.botoneditar').addClass('invisibility');
                             $('.preciodeta').addClass('noeditar');
                         }
+                        else if(usuario==2){
+                            $('.botoneditar').removeClass('invisible');
+                        }
                     });
             },
             mostrarDetalle(){
@@ -844,7 +860,10 @@
                 me.arrayDetalle=[];
             },
             ocultarDetalle(){
+                let me = this;
                 this.listado=1;
+                me.listarVenta(1,'','num_comprobante');
+                me.verCliente();
             },
             verVenta(id){
                 let me=this;

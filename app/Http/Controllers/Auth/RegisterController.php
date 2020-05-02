@@ -7,9 +7,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Persona;
+
 
 class RegisterController extends Controller
 {
+
+    public function showRegisterForm(){
+        return view('auth.register');
+    }
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -61,12 +69,39 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        try{
+            DB::beginTransaction();
+            $persona = new Persona();
+            $persona->nombre = $request->nombre;
+            $persona->apellido = $request->apellido;
+            $persona->tipo_documento = $request->tipo_documento;
+            $persona->num_documento = $request->num_documento;
+            $persona->direccion = $request->direccion;
+            $persona->telefono = $request->telefono;
+            $persona->email = $request->email;
+            $persona->razon_social = 'no';
+            $persona->clientec= '0';
+            $persona->save();
+
+            $user = new User();
+            $user->usuario = $request->usuario;
+            $user->password = bcrypt($request->password);
+            $user->condicion = '1';
+            $user->idrol = '3';
+            
+            $user->id = $persona->id;
+
+
+            $user->save();
+
+            DB::commit();
+
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+
+        return view('auth.login');
     }
 }

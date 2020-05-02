@@ -160,7 +160,7 @@ class VentaController extends Controller {
                 $venta->idusuario = \Auth::user()->id;
                 $venta->fecha_hora = $mytime->toDateString();
                 $venta->total = $request->total;
-                $venta->estado = 'Registrado';
+                $venta->estado = 'Cotizando';
                 $venta->save();
 
                 $detalles = $request->data;//Array de detalles

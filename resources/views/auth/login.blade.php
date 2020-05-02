@@ -25,9 +25,6 @@
                 <div class="col-6">
                   <button type="submit" class="btn btn-primary px-4">Acceder</button>
                 </div>
-                <div class="col-6 text-right">
-                  <button type="button" class="btn btn-link px-0">Olvidaste tu contraseña?</button>
-                </div>
               </div>
             </div>
           </form>
@@ -37,13 +34,14 @@
               <div>
                 <h2>Bienvenido al sistema integrafi</h2>
                 <p>Si aún no haces parte de nosotros, registrate</p>
-                <button class="btn btn-success">Aquí</button>
+                <a href="{{ url('register') }}"><button class="btn btn-success">Aquí</button></a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+</div>
+
 
 <style>
 

@@ -222,9 +222,9 @@
             cambiarPagina(page, buscar, criterio){
               let me = this;
             //actualiza la pagina actual
-              me.pagination.current_page = page;
+                me.pagination.current_page = page;
             //envia la peticion para visualizar la data de esa pagina
-              me.listarArticulos(page,buscar,criterio);
+                me.listarArticulos(page,buscar,criterio);
             },
             cargarPdf(){
                 window.open('http://ideasalvajes.net/articulo/listarPdf','_blank');
@@ -234,26 +234,35 @@
                 if(this.validarArticulo()){
                     return;
                 }
-
                 let me = this;
-                axios.post('/articulo/registrar',{
-                    'nombre': this.nombre,
-                    'descripcion': this.descripcion,
-                    'codigo': this.codigo,
-                    'precio_venta': this.precio_venta
-                }).then(function (response) {
-                    me.cerrarModal();
-                    me.listarArticulos(1,'','nombre');
-                    Swal.fire({
-                    icon: 'success',
-                    title: 'Producto creado exitosamente',
-                    showConfirmButton: false,
-                    timer: 1500
-                    });
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
+
+                if(me.precio_venta <= 0) {
+                    swal.fire(
+                        'Precio del producto',
+                        'El precio del producto no puede ser menor a $1',
+                        'error'
+                        )
+                } else {
+                    axios.post('/articulo/registrar',{
+                        'nombre': this.nombre,
+                        'descripcion': this.descripcion,
+                        'codigo': this.codigo,
+                        'precio_venta': this.precio_venta
+                    }).then(function (response) {
+                        me.cerrarModal();
+                        me.listarArticulos(1,'','nombre');
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Producto creado exitosamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+
+                }
 
             },
 
