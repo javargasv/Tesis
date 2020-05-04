@@ -71,6 +71,11 @@ class RegisterController extends Controller
      */
     protected function create(Request $request)
     {
+        $user = Persona::where('num_documento', '=', $request->input('num_documento'))->first();
+        if ($user) {
+            echo("El registro no se puede completar porque el usuario ya existe. Por favor inténtelo nuevamente.");
+            return view('auth.register');
+         } else {
         try{
             DB::beginTransaction();
             $persona = new Persona();
@@ -103,5 +108,7 @@ class RegisterController extends Controller
         }
 
         return view('auth.login');
+
+    }
     }
 }

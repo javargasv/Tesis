@@ -41,10 +41,10 @@
                                     <td v-text="articulo.descripcion"></td>
                                     <td>$ {{formato(articulo.precio_venta)}}</td>
                                     <td>
-                                        <div v-if="articulo.condicion">
+                                        <div v-if="articulo.condicion == 1">
                                         <span class="badge badge-success">Activo</span>
                                         </div>
-                                        <div v-else>
+                                        <div v-if="articulo.condicion == 0">
                                         <span class="badge badge-danger">No disponible</span>
                                         </div>
                                     </td>
@@ -52,12 +52,12 @@
                                         <button type="button" class="btn btn-warning btn-sm">
                                         <i class="icon-pencil" @click="abrirModal('articulo','actualizar',articulo)"></i>
                                         </button> &nbsp;
-                                        <template v-if="articulo.condicion">
+                                        <template v-if="articulo.condicion == 1">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarArticulo(articulo.id)">
                                             <i class="icon-trash"></i>
                                             </button>
                                         </template>
-                                        <template v-else>
+                                        <template v-if="articulo.condicion == 0">
                                             <button type="button" class="btn btn-info btn-sm" @click="activarArticulo(articulo.id)">
                                             <i class="icon-check"></i>
                                             </button>

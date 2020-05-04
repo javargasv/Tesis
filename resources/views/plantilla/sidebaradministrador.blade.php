@@ -45,10 +45,10 @@
                             </li>
                         </ul>
                     </li>
-                <!--    <li class="nav-item">
-                        <a @click="menu=8" class="nav-link" href="#"><i class="icon-book-open"></i> Ayuda <span class="badge badge-danger">PDF</span></a>
-                    </li>
                     <li class="nav-item">
+                        <a @click="menu=4" class="nav-link" href="#"><i class="icon-book-open"></i> Ayuda </a>
+                    </li>
+                    <!--<li class="nav-item">
                         <a @click="menu=9" class="nav-link" href="#"><i class="icon-info"></i> Acerca de...<span class="badge badge-info">IT</span></a>
                     </li> -->
                 </ul>

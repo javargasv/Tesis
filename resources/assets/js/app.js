@@ -22,6 +22,9 @@ Vue.component('venta', require('./components/Venta.vue'));
 Vue.component('inicio', require('./components/Inicio.vue'));
 Vue.component('dashboard', require('./components/Dashboard.vue'));
 Vue.component('notificacion', require('./components/Notification.vue'));
+Vue.component('Ayudaejecutivo', require('./components/Ayudaejecutivo.vue'));
+Vue.component('Ayudacliente', require('./components/Ayudacliente.vue'));
+Vue.component('Ayudaadmin', require('./components/Ayudaadmin.vue'));
 
 const app = new Vue({
     el: '#app',
