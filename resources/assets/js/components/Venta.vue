@@ -20,7 +20,7 @@
                                     <select class="form-control col-md-3" v-model="criterio" id="selec" @click="textoplace()">
                                         <option value="id">N° de pedido</option>
                                         <option value="estado">Estado</option>
-                                        <option value="fecha_hora">Fecha-Hora</option>
+                                        <option value="created_at">Fecha-Hora</option>
                                         <option value="total">Total</option>
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarVenta(1,buscar,criterio)" class="form-control textoBusqueda" placeholder="Ej: Registrado/Rechazado/Aceptado...">
@@ -152,35 +152,35 @@
                                     <div class="form-inline">
                                         <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarArticulo()" placeholder="Código producto">
                                         <button @click="listarArticulo(buscarA,criterioA),abrirModal()" class="btn btn-primary">Buscar producto&nbsp;&nbsp;<i class="fa fa-search"></i></button>
-                                        <input type="text" readonly class="form-control inp" v-model="articulo">
+                                        <input type="text" readonly class="form-control inp" v-model="articulo" placeholder="Aquí verás el nombre del producto" style="    width: 30%; font-size: 0.7rem;">
                                     </div>                                    
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Descripción #1</label>
-                                    <input type="text" step="any" class="form-control" v-model="leyenda1">
+                                    <input type="text" step="any" class="form-control" v-model="leyenda1" placeholder="Ingresa descripción #1">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Descripción #2</label>
-                                    <input type="text" step="any" class="form-control" v-model="leyenda2">
+                                    <input type="text" step="any" class="form-control" v-model="leyenda2" placeholder="Ingresa descripción #2">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Descripción #3</label>
-                                    <input type="text" step="any" class="form-control" v-model="leyenda3">
+                                    <input type="text" step="any" class="form-control" v-model="leyenda3" placeholder="Ingresa descripción #3">
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Descripción #4</label>
-                                    <input type="text" step="any" class="form-control" v-model="leyenda4">
+                                    <input type="text" step="any" class="form-control" v-model="leyenda4" placeholder="Ingresa descripción #4">
                                 </div>
                             </div>
 
@@ -228,16 +228,16 @@
                                             <td v-text="detalle.articulo">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.leyenda1" type="text"  class="form-control">
+                                                <input v-model="detalle.leyenda1" type="text"  class="form-control" placeholder="Ingresa descripción #1">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.leyenda2" type="text"  class="form-control">
+                                                <input v-model="detalle.leyenda2" type="text"  class="form-control" placeholder="Ingresa descripción #2">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.leyenda3" type="text"  class="form-control">
+                                                <input v-model="detalle.leyenda3" type="text"  class="form-control" placeholder="Ingresa descripción #3">
                                             </td>
                                             <td>
-                                                <input v-model="detalle.leyenda4" type="text"  class="form-control">
+                                                <input v-model="detalle.leyenda4" type="text"  class="form-control" placeholder="Ingresa descripción #4">
                                             </td>
                                             <td>
                                                 <input v-model="detalle.precio" type="number" class="form-control preciodeta">

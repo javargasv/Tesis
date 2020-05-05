@@ -64772,7 +64772,7 @@ var render = function() {
                               _vm._v("Estado")
                             ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "fecha_hora" } }, [
+                            _c("option", { attrs: { value: "created_at" } }, [
                               _vm._v("Fecha-Hora")
                             ]),
                             _vm._v(" "),
@@ -65308,7 +65308,15 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control inp",
-                            attrs: { type: "text", readonly: "" },
+                            staticStyle: {
+                              width: "30%",
+                              "font-size": "0.7rem"
+                            },
+                            attrs: {
+                              type: "text",
+                              readonly: "",
+                              placeholder: "Aquí verás el nombre del producto"
+                            },
                             domProps: { value: _vm.articulo },
                             on: {
                               input: function($event) {
@@ -65337,7 +65345,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", step: "any" },
+                          attrs: {
+                            type: "text",
+                            step: "any",
+                            placeholder: "Ingresa descripción #1"
+                          },
                           domProps: { value: _vm.leyenda1 },
                           on: {
                             input: function($event) {
@@ -65365,7 +65377,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", step: "any" },
+                          attrs: {
+                            type: "text",
+                            step: "any",
+                            placeholder: "Ingresa descripción #2"
+                          },
                           domProps: { value: _vm.leyenda2 },
                           on: {
                             input: function($event) {
@@ -65393,7 +65409,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", step: "any" },
+                          attrs: {
+                            type: "text",
+                            step: "any",
+                            placeholder: "Ingresa descripción #3"
+                          },
                           domProps: { value: _vm.leyenda3 },
                           on: {
                             input: function($event) {
@@ -65421,7 +65441,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", step: "any" },
+                          attrs: {
+                            type: "text",
+                            step: "any",
+                            placeholder: "Ingresa descripción #4"
+                          },
                           domProps: { value: _vm.leyenda4 },
                           on: {
                             input: function($event) {
@@ -65571,7 +65595,11 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "text" },
+                                          attrs: {
+                                            type: "text",
+                                            placeholder:
+                                              "Ingresa descripción #1"
+                                          },
                                           domProps: { value: detalle.leyenda1 },
                                           on: {
                                             input: function($event) {
@@ -65599,7 +65627,11 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "text" },
+                                          attrs: {
+                                            type: "text",
+                                            placeholder:
+                                              "Ingresa descripción #2"
+                                          },
                                           domProps: { value: detalle.leyenda2 },
                                           on: {
                                             input: function($event) {
@@ -65627,7 +65659,11 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "text" },
+                                          attrs: {
+                                            type: "text",
+                                            placeholder:
+                                              "Ingresa descripción #3"
+                                          },
                                           domProps: { value: detalle.leyenda3 },
                                           on: {
                                             input: function($event) {
@@ -65655,7 +65691,11 @@ var render = function() {
                                             }
                                           ],
                                           staticClass: "form-control",
-                                          attrs: { type: "text" },
+                                          attrs: {
+                                            type: "text",
+                                            placeholder:
+                                              "Ingresa descripción #4"
+                                          },
                                           domProps: { value: detalle.leyenda4 },
                                           on: {
                                             input: function($event) {
