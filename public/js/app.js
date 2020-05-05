@@ -64392,7 +64392,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             cantidad: me.cantidad,
                             precio: me.precio,
                             leyenda1: me.leyenda1,
-                            leyenda2: me.leyenda4,
+                            leyenda2: me.leyenda2,
                             leyenda3: me.leyenda3,
                             leyenda4: me.leyenda4
                         });
@@ -67427,16 +67427,8 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("center", [
-          _c("iframe", {
-            attrs: {
-              width: "560",
-              height: "315",
-              src:
-                "https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-              frameborder: "0",
-              allow: "autoplay; encrypted-media",
-              allowfullscreen: ""
-            }
+          _c("video", {
+            attrs: { src: "img/Manual_Ejecutivo.mp4", controls: "" }
           })
         ])
       ],
@@ -67612,16 +67604,8 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("center", [
-          _c("iframe", {
-            attrs: {
-              width: "560",
-              height: "315",
-              src:
-                "https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-              frameborder: "0",
-              allow: "autoplay; encrypted-media",
-              allowfullscreen: ""
-            }
+          _c("video", {
+            attrs: { src: "img/Manual_Cliente.mp4", controls: "" }
           })
         ])
       ],
@@ -67787,16 +67771,8 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("center", [
-          _c("iframe", {
-            attrs: {
-              width: "560",
-              height: "315",
-              src:
-                "https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-              frameborder: "0",
-              allow: "autoplay; encrypted-media",
-              allowfullscreen: ""
-            }
+          _c("video", {
+            attrs: { src: "img/Manual_Administrador.mp4", controls: "" }
           })
         ])
       ],

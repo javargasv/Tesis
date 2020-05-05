@@ -118,12 +118,12 @@
     <body>
     @foreach ($venta as $v)
         <header>
-            <div id="logo">
+            <center><div id="logo">
                 <img src="img/logo.png" alt="Integrafi" id="imagen">
-            </div>
+            </div></center>
             <div id="datos">
                 <p id="encabezado">
-                    <b>Integrafi</b><br>Bogotá, Colombia<br>Telefono:(1) 5239954<br>Email:integrafi@hotmail.com
+                    <b>Cra 65 #5A-63</b><br>Bogotá, Colombia<br>Telefono:(1) 5239954<br>ventas@integrafi.com
                 </p>
             </div>
             <div id="fact">
@@ -142,7 +142,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th><p id="cliente">Sr(a)/(es). {{$v->nombre}}<br>
+                            <th><p id="cliente">Señor: {{$v->nombre}}<br>
                             {{$v->tipo_documento}}: {{$v->num_documento}}<br>
                             Dirección: {{$v->direccion}}<br>
                             Teléfono: {{$v->telefono}}<br>
@@ -185,10 +185,10 @@
                     <tbody id="abajo">
                     @foreach ($detalles as $det)
                         <tr>
-                            <td>{{$det->cantidad}}</td>
-                            <td>{{$det->articulo}}</td>
-                            <td>$ {{$det->precio}}</td>
-                            <td>$ {{$det->cantidad*$det->precio,3}}</td>
+                            <td style="text-align: right;">{{$det->cantidad}}</td>
+                            <td style="text-align: right;">{{$det->articulo}}</td>
+                            <td style="text-align: right;">$ {{$det->precio}}</td>
+                            <td style="text-align: right;">$ {{$det->cantidad*$det->precio,3}}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -197,8 +197,8 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>SUBTOTAL</th>
-                        <td>$ {{$v->total}}</td>
+                        <th style="text-align: right;">SUBTOTAL</th>
+                        <td style="text-align: right;">$ {{$v->total}}</td>
                     </tr>
                     @endforeach
                     </tfoot>

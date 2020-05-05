@@ -6,7 +6,7 @@
                 <br>
                 <br>
                 <p class="text-center mb-4">Hola Ejecutivo de ventas. Si tienes alguna duda sobre el funcionamiento del sistema puedes guiarte con el siguiente video manual. Si tienes problemas con el sistema, o alguna sugerencia, queja o reclamo, puedes comunicarte al correo IntegrafiSoluciones@Integrafi.com.</p>
-                <center><iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></center>
+               <center><video src="img/Manual_Ejecutivo.mp4" controls></video></center>
 
             </div>
             

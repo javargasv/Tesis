@@ -690,7 +690,7 @@
                                     cantidad: me.cantidad,
                                     precio: me.precio,
                                     leyenda1: me.leyenda1,
-                                    leyenda2: me.leyenda4,
+                                    leyenda2: me.leyenda2,
                                     leyenda3: me.leyenda3,
                                     leyenda4: me.leyenda4
                                     });
